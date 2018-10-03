@@ -11,11 +11,6 @@ export default new Router({
       component: require('@/components/WelcomeView').default
     },
     {
-      path: '/inspire',
-      name: 'inspire',
-      component: require('@/components/InspireView').default
-    },
-    {
       path: '*',
       redirect: '/'
     }
