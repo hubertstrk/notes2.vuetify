@@ -3,30 +3,45 @@
     <v-app>
       <v-navigation-drawer class="drawer" dark fixed :clipped="clipped" v-model="drawer" app>
         <v-list>
+          
           <v-list-tile>
             <v-list-tile-action>
               <v-icon>home</v-icon>
             </v-list-tile-action>
             <v-list-tile-title>Notes</v-list-tile-title>
           </v-list-tile>
+          
           <v-divider></v-divider>
+          
           <template v-for="location in notes">
-            <v-list-group no-action sub-group :key="location.location">
+            <v-list-group prepend-icon="folder_open" v-model="location.active" :key="location.location">
+              
               <v-list-tile slot="activator">
-                <v-list-tile-title>{{location.label}}</v-list-tile-title>
+                <v-list-tile-content>
+                  <v-list-tile-title>{{location.locationName}}</v-list-tile-title>
+                  <!-- <v-list-tile-sub-title><h5><i>{{ location.locationPath }}</i></h5></v-list-tile-sub-title> -->
+                </v-list-tile-content>
               </v-list-tile>
+             
               <v-list-tile @click="activateNote(note.id)" class="note" v-for="(note, i) in location.children" :key="i">
+                <v-list-tile-avatar>
+                  <!-- leave empty -->
+                </v-list-tile-avatar>
                 <v-list-tile-title v-text="note.label"></v-list-tile-title>
               </v-list-tile>
+
             </v-list-group>
           </template>
+
           <v-divider></v-divider>
+          
           <v-list-tile>
             <v-list-tile-action>
               <v-icon>delete</v-icon>
             </v-list-tile-action>
             <v-list-tile-title>Trash</v-list-tile-title>
           </v-list-tile>
+
         </v-list>
       </v-navigation-drawer>
       
@@ -81,10 +96,12 @@ export default {
 
       const formatNote = note => { return {id: note.id, label: note.headings.length === 0 ? note.text.substring(0, 30) : note.headings[0].text} }
 
-      return notesByLocation.map((note) => {
+      return notesByLocation.map((locationNotes) => {
         return {
-          label: note.location.name,
-          children: _.sortBy(note.notes.map(formatNote), ['label'])
+          active: false,
+          locationName: locationNotes.location.name,
+          locationPath: locationNotes.location.path,
+          children: _.sortBy(locationNotes.notes.map(formatNote), ['label'])
         }
       })
     }
