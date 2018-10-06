@@ -1,9 +1,8 @@
 <template>
   <div id="app">
     <v-app>
-      <v-navigation-drawer dark fixed :mini-variant="miniVariant" :clipped="clipped" v-model="drawer" app>
+      <v-navigation-drawer class="drawer" dark fixed :clipped="clipped" v-model="drawer" app>
         <v-list>
-
           <v-list-tile>
             <v-list-tile-action>
               <v-icon>home</v-icon>
@@ -16,21 +15,18 @@
               <v-list-tile slot="activator">
                 <v-list-tile-title>{{location.label}}</v-list-tile-title>
               </v-list-tile>
-
-              <v-list-tile v-for="(note, i) in location.children" :key="i">
+              <v-list-tile class="note" v-for="(note, i) in location.children" :key="i">
                 <v-list-tile-title v-text="note.label"></v-list-tile-title>
               </v-list-tile>
             </v-list-group>
           </template>
           <v-divider></v-divider>
-
           <v-list-tile>
             <v-list-tile-action>
               <v-icon>delete</v-icon>
             </v-list-tile-action>
             <v-list-tile-title>Trash</v-list-tile-title>
           </v-list-tile>
-
         </v-list>
       </v-navigation-drawer>
       
@@ -44,11 +40,10 @@
         <v-btn icon @click.native.stop="rightDrawer = !rightDrawer">
           <v-icon>menu</v-icon>
         </v-btn>
-      
       </v-toolbar>
       
       <v-content>
-        <v-container fluid fill-height>
+        <v-container fluid >
           <v-slide-y-transition mode="out-in">
             <router-view></router-view>
           </v-slide-y-transition>
@@ -56,59 +51,67 @@
       </v-content>
       
       <v-navigation-drawer temporary fixed :right="right" v-model="rightDrawer" >
-        <v-list>
-          <v-list-tile @click.native="right = !right">
-            <v-list-tile-action>
-              <v-icon light>compare_arrows</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-title>Switch drawer (click me)</v-list-tile-title>
-          </v-list-tile>
-        </v-list>
+        <RightDrawer></RightDrawer>
       </v-navigation-drawer>
     </v-app>
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'notes',
-    data: () => ({
-      clipped: false,
-      drawer: true,
-      fixed: false,
-      items: [
-        { icon: 'apps', title: 'Welcome', to: '/' },
-        { icon: 'bubble_chart', title: 'Inspire', to: '/inspire' }
-      ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Editor',
-      admins: [
-        ['Management', 'people_outline'],
-        ['Settings', 'settings']
-      ]
-    }),
-    computed: {
-      notes () {
-        const notesByLocation = this.$store.getters['notesByLocation']
-        return notesByLocation.map((note) => {
-          return {
-            label: note.location.name,
-            children: note.notes.map((x) => {
-              return { label: x.headings.length === 0 ? x.text.substring(0, 30) : x.headings[0].text }
-            })
-          }
-        })
-      }
-    },
-    mounted () {
-      this.$store.commit('loadNotes')
+import RightDrawer from './components/Drawer.vue'
+
+export default {
+  name: 'notes',
+  data: () => ({
+    clipped: false,
+    drawer: true,
+    fixed: false,
+    right: true,
+    rightDrawer: false,
+    title: 'Editor',
+    admins: [
+      ['Management', 'people_outline'],
+      ['Settings', 'settings']
+    ]
+  }),
+  computed: {
+    notes () {
+      const notesByLocation = this.$store.getters['notesByLocation']
+      return notesByLocation.map((note) => {
+        return {
+          label: note.location.name,
+          children: note.notes.map((x) => {
+            return { label: x.headings.length === 0 ? x.text.substring(0, 30) : x.headings[0].text }
+          })
+        }
+      })
     }
+  },
+  mounted () {
+    this.$store.dispatch('ensureUserSettings')
+      .then(() => {
+        return this.$store.dispatch('readLocations')
+      })
+      .then(() => {
+        return this.$store.dispatch('readNotes')
+      })
+  },
+  components: {
+    RightDrawer
   }
+}
 </script>
 
 <style>
   @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons');
   /* Global CSS */
+</style>
+
+<style lang="css" scoped>
+.drawer {
+  /* background-color: #263238; */
+}
+.note {
+  background-color: #616161;
+}
 </style>

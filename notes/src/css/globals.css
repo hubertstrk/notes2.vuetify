@@ -31,10 +31,14 @@ table th {
 }
 
 /* do not draw any paddings inside vuetify containers because of size calculation*/
-.container {padding: 0px !important;}
+.container {padding: 20px !important;}
 
 /* draw folder icons inside circle: notes navigation */
 i.icon {display: flex;}
 
 /* no underlines for vuetify links */
 a {text-decoration: none;}
+
+.v-btn {
+  margin: 10px 0 !important;
+}

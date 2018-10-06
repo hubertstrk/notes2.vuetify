@@ -1,13 +1,24 @@
 import Location from '@model/Location'
-import Note from '@model/Note'
+// import Note from '@model/Note'
+import {addLocation, readDirectory, readFile} from '../../../api/file'
+
+import settingsManager from '../../../api/settings-manager'
+import Note from '../../../model/Note'
 
 const state = {
+  settings: {
+    paths: []
+  },
   active: null,
   notes: [],
   locations: []
 }
 
 const mutations = {
+  addLocation (state, Location) {
+    console.info('mutation addLocation')
+    state.locations.push(Location)
+  },
   setActiveNote (state, id) {
     const index = state.notes.findIndex(x => x.id === id)
     state.active = state.notes[index]
@@ -15,58 +26,59 @@ const mutations = {
   updateActiveNoteText (state, text) {
     state.active.setText(text)
   },
-  deleteNote (state, id) {
-    const index = state.notes.findIndex(x => x.id === id)
-    state.notes.splice(index, 1)
+  setUserSettings (state, settings) {
+    Object.assign(state.settings, settings)
   },
-  loadNotes (state) {
-    const location1 = new Location('C:\\Users\\Hubert\\Google Drive', 'Project')
-    const location2 = new Location('C:\\Users\\Hubert\\Google Drive', 'Server')
-    const location3 = new Location('C:\\Users\\Hubert\\Google Drive', 'Todo')
-
-    const note1 = new Note(1, location1)
-    note1.setText('# Definition')
-
-    const note2 = new Note(2, location2)
-    note2.setText('# Workflow')
-
-    const note3 = new Note(3, location3)
-    note3.setText('# Assignment')
-
-    const note4 = new Note(4, location3)
-    note4.setText('# Communication')
-
-    const note5 = new Note(5, location3)
-    note5.setText('# Transparent')
-
-    const note6 = new Note(6, location3)
-    note6.setText('# Phone Numbers')
-
-    const note7 = new Note(7, location2)
-    note7.setText('# Address')
-
-    const note8 = new Note(8, location2)
-    note8.setText('# Placeholder')
-
-    const note9 = new Note(9, location2)
-    note9.setText('# Actions and Commits')
-
-    state.locations = [location1, location2, location3]
-    state.notes = [note1, note2, note3, note4, note5, note6, note7, note8, note9]
-
-    state.active = note3
+  addNote (state, note) {
+    state.notes.push(note)
   }
 }
 
 const actions = {
-  setActiveNote ({state, commit}, id) {
-    commit('setActiveNote')
+  addLocation ({commit}, {location, folder}) {
+    const add = new Location(location, folder)
+    return addLocation(add).then(() => {
+      commit('addLocation', add)
+    })
   },
   updateActiveNoteText ({state, commit}, text) {
     commit('updateActiveNoteText', text)
   },
-  deleteNote ({state, commit}, id) {
-    commit('deleteNote', id)
+  ensureUserSettings ({dispatch}) {
+    return settingsManager.ensureUserSettingsFile()
+      .then(dispatch('readUserSettings'))
+  },
+  readUserSettings ({commit}) {
+    return settingsManager.readUserSettings()
+      .then(settings => commit('setUserSettings', settings))
+  },
+  writeUserSettings ({state}) {
+    return settingsManager.writeUserSettings(state.settings)
+  },
+  readLocations ({state, commit}) {
+    const locations = state.settings.paths.map(path => readDirectory(path))
+    return Promise.all(locations)
+      .then((locations) => {
+        locations.forEach((location) => {
+          location.forEach(({path, name}) => {
+            const location = new Location(path, name)
+            commit('addLocation', location)
+          })
+        })
+      })
+  },
+  readNotes ({state, commit}) {
+    state.locations.forEach((location) => {
+      readDirectory(location.fullPath).then((filePaths) => {
+        filePaths.forEach((filePath) => {
+          readFile(filePath.path, filePath.name).then((text) => {
+            const newNote = new Note(filePath.name, location)
+            newNote.setText(text)
+            commit('addNote', newNote)
+          })
+        })
+      })
+    })
   }
 }
 

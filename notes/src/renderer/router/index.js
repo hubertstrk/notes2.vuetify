@@ -11,6 +11,11 @@ export default new Router({
       component: require('@/components/WelcomeView').default
     },
     {
+      path: '/synchronization',
+      name: 'Synchronization',
+      component: require('@/components/Synchronization').default
+    },
+    {
       path: '*',
       redirect: '/'
     }
