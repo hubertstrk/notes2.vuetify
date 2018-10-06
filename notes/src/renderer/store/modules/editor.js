@@ -16,10 +16,9 @@ const state = {
 
 const mutations = {
   addLocation (state, Location) {
-    console.info('mutation addLocation')
     state.locations.push(Location)
   },
-  setActiveNote (state, id) {
+  activateNote (state, id) {
     const index = state.notes.findIndex(x => x.id === id)
     state.active = state.notes[index]
   },
@@ -35,6 +34,9 @@ const mutations = {
 }
 
 const actions = {
+  activateNote ({commit}, id) {
+    commit('activateNote', id)
+  },
   addLocation ({commit}, {location, folder}) {
     const add = new Location(location, folder)
     return addLocation(add).then(() => {

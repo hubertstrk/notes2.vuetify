@@ -15,7 +15,7 @@
               <v-list-tile slot="activator">
                 <v-list-tile-title>{{location.label}}</v-list-tile-title>
               </v-list-tile>
-              <v-list-tile class="note" v-for="(note, i) in location.children" :key="i">
+              <v-list-tile @click="activateNote(note.id)" class="note" v-for="(note, i) in location.children" :key="i">
                 <v-list-tile-title v-text="note.label"></v-list-tile-title>
               </v-list-tile>
             </v-list-group>
@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import RightDrawer from './components/Drawer.vue'
 
 export default {
@@ -77,14 +78,20 @@ export default {
   computed: {
     notes () {
       const notesByLocation = this.$store.getters['notesByLocation']
+
+      const formatNote = note => { return {id: note.id, label: note.headings.length === 0 ? note.text.substring(0, 30) : note.headings[0].text} }
+
       return notesByLocation.map((note) => {
         return {
           label: note.location.name,
-          children: note.notes.map((x) => {
-            return { label: x.headings.length === 0 ? x.text.substring(0, 30) : x.headings[0].text }
-          })
+          children: _.sortBy(note.notes.map(formatNote), ['label'])
         }
       })
+    }
+  },
+  methods: {
+    activateNote (id) {
+      this.$store.commit('activateNote', id)
     }
   },
   mounted () {
