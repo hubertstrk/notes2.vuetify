@@ -15,8 +15,12 @@ class Note {
 
   compileMarkdown () {
     clearHeadings()
+
     this.markdown = marked(this.text, { sanitize: true })
     this.headings = getHeadings()
+    if (this.headings.length === 0) {
+      this.headings.push(this.text.substring(0, 20))
+    }
   }
 
   equals (toCompare) {

@@ -20,6 +20,8 @@ import 'brace/ext/language_tools'
 import 'brace/mode/html'
 import 'brace/mode/markdown'
 import 'brace/theme/github'
+import 'brace/theme/ambiance'
+import 'brace/theme/sqlserver'
 
 import {SizeMixin} from './SizeMixin.js'
 
@@ -39,7 +41,7 @@ export default {
         return this.$store.state.editor.active.text
       },
       set (text) {
-        this.$store.dispatch('updateActiveNoteText', text)
+        this.$store.dispatch('updateNoteText', text)
       }
     }
   },
@@ -50,6 +52,7 @@ export default {
       editor.setShowFoldWidgets(true)
       editor.setShowPrintMargin(false)
       editor.setFontSize(12)
+      editor.setHighlightGutterLine(true)
       editor.getSession().setUseWrapMode(true)
       editor.getSession().setUseSoftTabs(true)
       editor.setAnimatedScroll()

@@ -20,6 +20,10 @@ export default {
     compiledMarkdown: function () {
       if (!this.$store.state.editor.active) return ''
       return this.$store.state.editor.active.markdown
+    },
+    markdown () {
+      if (!this.$store.state.editor.active || !this.$store.state.editor.active.markdown) return ''
+      return this.$store.state.editor.active.markdown
     }
   }
 }

@@ -16,6 +16,11 @@ export default new Router({
       component: require('@/components/Synchronization').default
     },
     {
+      path: '/newNote',
+      name: 'NewNote',
+      component: require('@/components/NewNote').default
+    },
+    {
       path: '*',
       redirect: '/'
     }

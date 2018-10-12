@@ -1,6 +1,6 @@
 import Location from '@model/Location'
 // import Note from '@model/Note'
-import {addLocation, readDirectory, readFile} from '../../../api/file'
+import {addLocation, readDirectory, readFile, writeNote, addNote} from '../../../api/file'
 
 import settingsManager from '../../../api/settings-manager'
 import Note from '../../../model/Note'
@@ -22,7 +22,7 @@ const mutations = {
     const index = state.notes.findIndex(x => x.id === id)
     state.active = state.notes[index]
   },
-  updateActiveNoteText (state, text) {
+  updateNoteText (state, text) {
     state.active.setText(text)
   },
   setUserSettings (state, settings) {
@@ -34,8 +34,19 @@ const mutations = {
 }
 
 const actions = {
-  activateNote ({commit}, id) {
-    commit('activateNote', id)
+  createNote ({commit}, location) {
+    return addNote(location.fullPath, '# Title').then((id) => {
+      const note = new Note(id, location)
+      note.setText('# Title')
+      commit('addNote', note)
+      commit('activateNote', note.id)
+    })
+  },
+  activateNote ({state, commit}, id) {
+    return writeNote(state.active)
+      .then(() => {
+        commit('activateNote', id)
+      })
   },
   addLocation ({commit}, {location, folder}) {
     const add = new Location(location, folder)
@@ -43,8 +54,8 @@ const actions = {
       commit('addLocation', add)
     })
   },
-  updateActiveNoteText ({state, commit}, text) {
-    commit('updateActiveNoteText', text)
+  updateNoteText ({state, commit}, text) {
+    commit('updateNoteText', text)
   },
   ensureUserSettings ({dispatch}) {
     return settingsManager.ensureUserSettingsFile()
@@ -85,13 +96,24 @@ const actions = {
 }
 
 const getters = {
-  notesByLocation: state => {
+  notesInLocation: state => {
     return state.locations.map((location) => {
       return {
         location,
         notes: state.notes.filter(note => note.location.equals(location))
       }
     })
+  },
+  notesByLocation: state => {
+    return state.notes.reduce((acc, curr) => {
+      if (acc[curr.location.fullPath]) {
+        acc[curr.location.fullPath].push(curr)
+      } else {
+        acc[curr.location.fullPath] = []
+        acc[curr.location.fullPath].push(curr)
+      }
+      return acc
+    }, {})
   }
 }
 

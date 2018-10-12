@@ -21,8 +21,11 @@ renderer.heading = function (text, level) {
 }
 
 marked.setOptions({
-  highlight: function (code) {
-    return hljs.highlightAuto(code).value
+  highlight: function (code, lang) {
+    hljs.configure({
+      classPrefix: 'solarized-dark-hljs-'
+    })
+    return hljs.highlight(lang, code).value
   },
   renderer,
   pedantic: false,

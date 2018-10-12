@@ -10,6 +10,7 @@
     <v-text-field v-model="folderName" label="Folder Name" required ></v-text-field>
 
     <v-btn :disabled="storeEnabled" @click="addLocation" color="primary">Add Location</v-btn>
+
   </div>
 </template>
 
@@ -35,6 +36,7 @@ export default {
       })
     },
     addLocation () {
+      this.$router.push('/')
       this.$store.dispatch('addLocation', {location: this.syncLocation, folder: this.folderName})
         .catch((error) => {
           console.error(error.message)
@@ -56,6 +58,6 @@ export default {
   padding: 20px;
 }
 .synchronization-component > * {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 </style>
