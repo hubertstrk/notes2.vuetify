@@ -9,7 +9,7 @@
             <v-btn @click="$router.push('/newNote')" flat icon color="white">
               <v-icon>playlist_add</v-icon>
             </v-btn>
-            <v-btn @click="deleteNote()" flat icon color="white">
+            <v-btn :disabled="activeNote === null" @click="showModal = true" flat icon color="white">
               <v-icon>delete_outline</v-icon>
             </v-btn>
           </v-list-tile>
@@ -58,6 +58,31 @@
       <v-navigation-drawer temporary fixed :right="right" v-model="rightDrawer" >
         <RightDrawer></RightDrawer>
       </v-navigation-drawer>
+
+    <v-dialog v-model="showModal" width="500">
+      <v-card>
+        <v-card-title class="headline grey lighten-2" primary-title>
+          Delete Note
+        </v-card-title>
+        <v-card-text>
+          Are you sure you want to delete the current note with title '{{activeNoteTitle}}'?
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="warning" flat dark @click="deleteNote">
+            Yes
+          </v-btn>
+          <v-btn color="primary" flat dark @click="showModal = false">
+            No
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+
     </v-app>
   </div>
 </template>
@@ -78,7 +103,8 @@ export default {
     admins: [
       ['Management', 'people_outline'],
       ['Settings', 'settings']
-    ]
+    ],
+    showModal: false
   }),
   computed: {
     notes () {
@@ -87,18 +113,31 @@ export default {
 
       return notesInLocation.map((locationNotes) => {
         return {
-          active: false,
+          active: this.activeNoteLocation === locationNotes.location.fullPath,
           locationName: locationNotes.location.name,
           locationPath: locationNotes.location.path,
           children: _.sortBy(locationNotes.notes.map(formatNote), ['label'])
         }
       })
+    },
+    activeNote () {
+      return this.$store.state.editor.active
+    },
+    activeNoteLocation () {
+      return this.$store.state.editor.active ? this.$store.state.editor.active.location.fullPath : ''
+    },
+    activeNoteTitle () {
+      return this.$store.state.editor.active ? this.$store.state.editor.active.headings[0].text : ''
     }
   },
   methods: {
     activateNote (id) {
       this.$router.push('/')
       this.$store.dispatch('activateNote', id)
+    },
+    deleteNote () {
+      this.showModal = false
+      this.$store.dispatch('deleteNote')
     }
   },
   mounted () {

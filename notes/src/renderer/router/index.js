@@ -11,14 +11,19 @@ export default new Router({
       component: require('@/components/WelcomeView').default
     },
     {
-      path: '/synchronization',
-      name: 'Synchronization',
-      component: require('@/components/Synchronization').default
+      path: '/new-project',
+      name: 'NewProject',
+      component: require('@/components/NewProject').default
     },
     {
       path: '/newNote',
       name: 'NewNote',
       component: require('@/components/NewNote').default
+    },
+    {
+      path: '/import-projects',
+      name: 'ImportProjects',
+      component: require('@/components/ImportProjects').default
     },
     {
       path: '*',

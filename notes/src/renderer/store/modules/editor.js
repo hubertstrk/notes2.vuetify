@@ -1,6 +1,6 @@
 import Location from '@model/Location'
 // import Note from '@model/Note'
-import {addLocation, readDirectory, readFile, writeNote, addNote} from '../../../api/file'
+import {addLocation, readDirectory, readFile, writeNote, addNote, deleteNote} from '../../../api/file'
 
 import settingsManager from '../../../api/settings-manager'
 import Note from '../../../model/Note'
@@ -18,6 +18,9 @@ const mutations = {
   addLocation (state, Location) {
     state.locations.push(Location)
   },
+  addPathToSettings (state, path) {
+    state.settings.paths.push(path)
+  },
   activateNote (state, id) {
     const index = state.notes.findIndex(x => x.id === id)
     state.active = state.notes[index]
@@ -30,6 +33,10 @@ const mutations = {
   },
   addNote (state, note) {
     state.notes.push(note)
+  },
+  deletNote (state, id) {
+    const index = state.notes.findIndex(x => x.id === id)
+    state.notes.splice(index, 1)
   }
 }
 
@@ -42,16 +49,22 @@ const actions = {
       commit('activateNote', note.id)
     })
   },
+  deleteNote ({state, commit}) {
+    const note = state.active
+    deleteNote(note.location.fullPath, note.id).then(() => {
+      commit('deletNote', note.id)
+    })
+  },
   activateNote ({state, commit}, id) {
     return writeNote(state.active)
       .then(() => {
         commit('activateNote', id)
       })
   },
-  addLocation ({commit}, {location, folder}) {
-    const add = new Location(location, folder)
-    return addLocation(add).then(() => {
-      commit('addLocation', add)
+  addLocation ({commit}, {path, name}) {
+    const location = new Location(path, name)
+    return addLocation(location).then(() => {
+      commit('addLocation', location)
     })
   },
   updateNoteText ({state, commit}, text) {
@@ -66,10 +79,15 @@ const actions = {
       .then(settings => commit('setUserSettings', settings))
   },
   writeUserSettings ({state}) {
-    return settingsManager.writeUserSettings(state.settings)
+    return settingsManager.writeUserSettings(state.settings).then(() => {
+      console.info('writeUserSettings done')
+    })
   },
-  readLocations ({state, commit}) {
-    const locations = state.settings.paths.map(path => readDirectory(path))
+  readLocations ({state, dispatch}) {
+    return dispatch('readLocationsByPaths', state.settings.paths)
+  },
+  readLocationsByPaths ({commit}, paths) {
+    const locations = paths.map(path => readDirectory(path))
     return Promise.all(locations)
       .then((locations) => {
         locations.forEach((location) => {
@@ -80,18 +98,34 @@ const actions = {
         })
       })
   },
-  readNotes ({state, commit}) {
-    state.locations.forEach((location) => {
-      readDirectory(location.fullPath).then((filePaths) => {
-        filePaths.forEach((filePath) => {
-          readFile(filePath.path, filePath.name).then((text) => {
-            const newNote = new Note(filePath.name, location)
-            newNote.setText(text)
-            commit('addNote', newNote)
-          })
+  readNotes ({state, dispatch}) {
+    state.locations.map((location) => {
+      return dispatch('readNotesByLocation', location)
+    })
+  },
+  readNotesByLocation ({state, commit}, location) {
+    return readDirectory(location.fullPath).then((filePaths) => {
+      filePaths.map((filePath) => {
+        return readFile(filePath.path, filePath.name).then((text) => {
+          const newNote = new Note(filePath.name, location)
+          newNote.setText(text)
+          commit('addNote', newNote)
+          if (!state.active) {
+            commit('activateNote', newNote.id)
+          }
         })
       })
     })
+  },
+  importProjects ({commit, dispatch}, path) {
+    commit('addPathToSettings', path)
+    return dispatch('writeUserSettings')
+      .then(() => {
+        return dispatch('readLocations')
+      })
+      .then(() => {
+        return dispatch('readNotes')
+      })
   }
 }
 

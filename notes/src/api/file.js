@@ -49,13 +49,13 @@ export const addNote = (path, markdown) => {
   })
 }
 
-// export const deleteNote = (path, filename) => {
-//   return new Promise((resolve, reject) => {
-//     try {
-//       fs.unlinkSync(`${path}/${filename}`)
-//       resolve()
-//     } catch (error) {
-//       reject(error)
-//     }
-//   })
-// }
+export const deleteNote = (path, filename) => {
+  return new Promise((resolve, reject) => {
+    try {
+      fs.unlinkSync(`${path}/${filename}`)
+      resolve()
+    } catch (error) {
+      reject(error)
+    }
+  })
+}

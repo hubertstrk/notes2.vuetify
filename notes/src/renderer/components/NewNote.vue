@@ -1,7 +1,7 @@
 <template>
   <div class="note-component">
     <div class="display-3">New Note</div>
-    <div class="subheading">To create a new note you need to select a storage location first.</div>
+    <div class="subheading">To create a new note you need to select a project.</div>
     <div>
       <v-list>
         <v-list-tile :key="index" v-for="(location, index) in locations" class="selectable" avatar>
@@ -54,9 +54,6 @@
 </script>
 
 <style lang="css" scoped>
-.active {
-  background-color: rgb(226, 37, 37);
-}
 .selectable:hover {
   background-color: rgb(231, 231, 231);
 }
