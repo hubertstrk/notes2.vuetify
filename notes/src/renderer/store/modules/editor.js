@@ -60,6 +60,10 @@ const actions = {
         commit('activateNote', id)
       })
   },
+  writeCurrentNote ({state}) {
+    console.info('writeCurrentNote')
+    return fileApi.writeNote(state.active)
+  },
   addProject ({commit}, {path, name}) {
     const project = new Project(path, name)
     return fileApi.addLocation(project).then(() => {
@@ -67,6 +71,7 @@ const actions = {
     })
   },
   updateNoteText ({state, commit}, text) {
+    console.info('updateNoteText')
     commit('updateNoteText', text)
   },
   ensureUserSettings ({dispatch}) {

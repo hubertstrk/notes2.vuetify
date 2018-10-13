@@ -19,7 +19,7 @@ class Note {
     this.markdown = marked(this.text, { sanitize: true })
     this.headings = getHeadings()
     if (this.headings.length === 0) {
-      this.headings.push(this.text.substring(0, 20))
+      this.headings.push({text: this.text.substring(0, 20), level: 1})
     }
   }
 

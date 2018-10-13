@@ -107,7 +107,12 @@ export default {
   }),
   computed: {
     projectNotes () {
-      const formatNote = note => { return {id: note.id, label: note.headings[0].text} }
+      const formatNote = note => {
+        return {
+          id: note.id,
+          label: note.headings[0].text
+        }
+      }
       const projectNotes = this.$store.getters['projectNotes'].map((projectNote) => {
         return {
           active: this.activeNoteProject === projectNote.project.fullPath,
