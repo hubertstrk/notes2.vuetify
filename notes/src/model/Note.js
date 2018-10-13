@@ -1,9 +1,9 @@
 import {marked, clearHeadings, getHeadings} from '../js/marked-config'
 
 class Note {
-  constructor (id, location) {
+  constructor (id, project) {
     this.id = id
-    this.location = location
+    this.project = project
     this.text = String
     this.markdown = String
     this.headings = Array

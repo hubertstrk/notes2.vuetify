@@ -1,4 +1,4 @@
-class Location {
+class Project {
   constructor (path, name) {
     this.path = path
     this.name = name
@@ -12,4 +12,4 @@ class Location {
   }
 }
 
-export default Location
+export default Project

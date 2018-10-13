@@ -7,7 +7,7 @@
     
     <v-btn @click="openFolder" color="primary">Select Location</v-btn>
 
-    <v-text-field :disabled="existingLocation" v-model="selectedName" label="Name" required ></v-text-field>
+    <v-text-field v-model="selectedName" label="Name" required ></v-text-field>
 
     <v-btn :disabled="this.selectedPath === '' && this.selectedName === ''" @click="addProject" color="primary">Add Project</v-btn>
 
@@ -39,7 +39,7 @@ export default {
     },
     addProject () {
       this.$router.push('/')
-      this.$store.dispatch('addLocation', {path: this.selectedPath, name: this.selectedName})
+      this.$store.dispatch('addProject', {path: this.selectedPath, name: this.selectedName})
         .catch((error) => {
           console.error(error.message)
         })

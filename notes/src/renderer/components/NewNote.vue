@@ -4,21 +4,21 @@
     <div class="subheading">To create a new note you need to select a project.</div>
     <div>
       <v-list>
-        <v-list-tile :key="index" v-for="(location, index) in locations" class="selectable" avatar>
+        <v-list-tile :key="project.fullPath" v-for="project in projects" class="selectable" avatar>
           <v-list-tile-avatar>
             <v-icon class="grey lighten-1 white--text">folder</v-icon>
           </v-list-tile-avatar>
           <v-list-tile-content>
-            <v-list-tile-title v-html="location.fullPath"></v-list-tile-title>
+            <v-list-tile-title v-html="project.fullPath"></v-list-tile-title>
           </v-list-tile-content>
           <v-list-tile-action>
-            <v-checkbox :input-value="selectedLocation.fullPath === location.fullPath" @click="onSelect(location)"></v-checkbox>
+            <v-checkbox :input-value="selectedProject.fullPath === project.fullPath" @click="onSelect(project)"></v-checkbox>
           </v-list-tile-action>
         </v-list-tile>
       </v-list>
     </div>
     <div>
-      <v-btn @click="createNote" color="primary" :disabled="!this.selectedLocation.fullPath">Add Note</v-btn>
+      <v-btn @click="createNote" color="primary" :disabled="!this.selectedProject.fullPath">Add Note</v-btn>
     </div>
   </div>
 </template>
@@ -30,22 +30,22 @@
     },
     data () {
       return {
-        selectedLocation: {fullPath: ''}
+        selectedProject: {fullPath: ''}
       }
     },
     methods: {
       onSelect (location) {
-        this.selectedLocation = location
+        this.selectedProject = location
       },
       createNote () {
-        if (!this.selectedLocation.fullPath) return
+        if (!this.selectedProject.fullPath) return
         this.$router.push('/')
-        this.$store.dispatch('createNote', this.selectedLocation)
+        this.$store.dispatch('createNote', this.selectedProject)
       }
     },
     computed: {
-      locations () {
-        return this.$store.state.editor.locations
+      projects () {
+        return this.$store.state.editor.projects
       }
     },
     mounted () {

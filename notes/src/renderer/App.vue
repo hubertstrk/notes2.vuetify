@@ -16,17 +16,17 @@
           
           <v-divider></v-divider>
           
-          <template v-for="location in notes">
+          <template v-for="projectNote in projectNotes">
             
-              <v-list-group v-model="location.active" :key="location.location">
+              <v-list-group v-model="projectNote.active" :key="projectNote.project.fullPath">
               
               <v-list-tile slot="activator">
                 <v-list-tile-content>
-                  <v-list-tile-title>{{location.locationName}}</v-list-tile-title>
+                  <v-list-tile-title>{{projectNote.project.name}}</v-list-tile-title>
                 </v-list-tile-content>
               </v-list-tile>
              
-              <v-list-tile @click="activateNote(note.id)" class="note" v-for="(note, i) in location.children" :key="i">
+              <v-list-tile @click="activateNote(note.id)" class="note" v-for="note in projectNote.notes" :key="note.id">
                 <v-list-tile-title v-text="note.label"></v-list-tile-title>
               </v-list-tile>
 
@@ -82,7 +82,6 @@
       </v-card>
     </v-dialog>
 
-
     </v-app>
   </div>
 </template>
@@ -107,24 +106,22 @@ export default {
     showModal: false
   }),
   computed: {
-    notes () {
+    projectNotes () {
       const formatNote = note => { return {id: note.id, label: note.headings[0].text} }
-      const notesInLocation = this.$store.getters['notesInLocation']
-
-      return notesInLocation.map((locationNotes) => {
+      const projectNotes = this.$store.getters['projectNotes'].map((projectNote) => {
         return {
-          active: this.activeNoteLocation === locationNotes.location.fullPath,
-          locationName: locationNotes.location.name,
-          locationPath: locationNotes.location.path,
-          children: _.sortBy(locationNotes.notes.map(formatNote), ['label'])
+          active: this.activeNoteProject === projectNote.project.fullPath,
+          project: projectNote.project,
+          notes: _.sortBy(projectNote.notes.map(formatNote), ['label'])
         }
       })
+      return _.sortBy(projectNotes, ['project.name'])
     },
     activeNote () {
       return this.$store.state.editor.active
     },
-    activeNoteLocation () {
-      return this.$store.state.editor.active ? this.$store.state.editor.active.location.fullPath : ''
+    activeNoteProject () {
+      return this.$store.state.editor.active ? this.$store.state.editor.active.project.fullPath : ''
     },
     activeNoteTitle () {
       return this.$store.state.editor.active ? this.$store.state.editor.active.headings[0].text : ''
@@ -143,7 +140,7 @@ export default {
   mounted () {
     this.$store.dispatch('ensureUserSettings')
       .then(() => {
-        return this.$store.dispatch('readLocations')
+        return this.$store.dispatch('readProjects')
       })
       .then(() => {
         return this.$store.dispatch('readNotes')

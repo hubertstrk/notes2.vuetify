@@ -1,16 +1,16 @@
 const fs = require('fs')
 const uuidv4 = require('uuid/v4')
 
-export const addLocation = (Location) => {
+const addLocation = (Project) => {
   return new Promise((resolve, reject) => {
-    return fs.mkdir(Location.fullPath, (error) => {
+    return fs.mkdir(Project.fullPath, (error) => {
       if (error) reject(error)
       resolve('folder created')
     })
   })
 }
 
-export const readDirectory = (path) => {
+const readDirectory = (path) => {
   return new Promise((resolve, reject) => {
     const names = fs.readdirSync(path)
     const dirNames = names.map((name) => {
@@ -20,7 +20,7 @@ export const readDirectory = (path) => {
   })
 }
 
-export const readFile = (path, filename) => {
+const readFile = (path, filename) => {
   return new Promise((resolve, reject) => {
     fs.readFile(`${path}/${filename}`, 'utf8', (error, text) => {
       if (error) reject(error)
@@ -29,17 +29,17 @@ export const readFile = (path, filename) => {
   })
 }
 
-export const writeNote = (note) => {
+const writeNote = (note) => {
   return new Promise((resolve, reject) => {
     if (!note) resolve()
-    fs.writeFile(`${note.location.fullPath}/${note.id}`, note.text, 'utf8', (error) => {
+    fs.writeFile(`${note.project.fullPath}/${note.id}`, note.text, 'utf8', (error) => {
       if (error) reject(error)
       resolve()
     })
   })
 }
 
-export const addNote = (path, markdown) => {
+const addNote = (path, markdown) => {
   return new Promise((resolve, reject) => {
     const uuid = uuidv4() // uuid is filename
     fs.appendFile(`${path}/${uuid}`, markdown, 'utf8', (error) => {
@@ -49,7 +49,7 @@ export const addNote = (path, markdown) => {
   })
 }
 
-export const deleteNote = (path, filename) => {
+const deleteNote = (path, filename) => {
   return new Promise((resolve, reject) => {
     try {
       fs.unlinkSync(`${path}/${filename}`)
@@ -58,4 +58,13 @@ export const deleteNote = (path, filename) => {
       reject(error)
     }
   })
+}
+
+export default {
+  addLocation,
+  readDirectory,
+  readFile,
+  writeNote,
+  addNote,
+  deleteNote
 }

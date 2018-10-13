@@ -25,6 +25,9 @@ marked.setOptions({
     hljs.configure({
       classPrefix: 'solarized-dark-hljs-'
     })
+    if (!lang) {
+      return hljs.highlightAuto(code).value
+    }
     return hljs.highlight(lang, code).value
   },
   renderer,
