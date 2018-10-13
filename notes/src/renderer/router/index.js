@@ -7,8 +7,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'welcome-view',
-      component: require('@/components/WelcomeView').default
+      name: 'editor',
+      component: require('@/components/Editor').default
     },
     {
       path: '/new-project',
@@ -16,7 +16,7 @@ export default new Router({
       component: require('@/components/NewProject').default
     },
     {
-      path: '/newNote',
+      path: '/new-note',
       name: 'NewNote',
       component: require('@/components/NewNote').default
     },

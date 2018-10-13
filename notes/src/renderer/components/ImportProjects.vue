@@ -1,13 +1,16 @@
 <template>
-  <div class="synchronization-component">
+  <div class="import-component">
     <div class="display-3">Import Projects</div>
-    <div class="subheading">Import all projects from the selected location.</div>
+    <div class="subheading">Import all projects from the selected location. 
+      This might be the case if you want to set up your notes for the first time on a new device. </div>
     
     <v-btn @click="openFolder" color="primary">Select Location</v-btn>
-
-    <v-btn :disabled="selectedPath === ''" @click="importProjects" color="primary">Import Projects</v-btn>
-    <div class="grey--text text--darken-1">Import projects from <kbd>{{hintPath}}</kbd></div>
-
+    <br>
+    <v-btn :disabled="selectedPath === ''" @click="importProjects" color="primary">
+       Import Projects
+       <v-icon right dark>sync</v-icon>
+    </v-btn>
+    <div class="grey--text text--darken-1">Import projects from <i>{{hintPath}}</i></div>
   </div>
 </template>
 
@@ -57,10 +60,10 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.synchronization-component {
+.import-component {
   padding: 20px;
 }
-.synchronization-component > * {
+.import-component > * {
   margin-bottom: 10px;
 }
 </style>

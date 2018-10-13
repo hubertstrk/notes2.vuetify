@@ -10,7 +10,7 @@ import EditorMarkup from './EditorMarkup'
 import EditorMarkdown from './EditorMarkdown'
 
 export default {
-  name: 'welcome',
+  name: 'Editor',
   components: {EditorMarkup, EditorMarkdown},
   methods: {
     open (link) {

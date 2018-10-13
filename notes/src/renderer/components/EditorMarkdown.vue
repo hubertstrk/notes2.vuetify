@@ -1,31 +1,5 @@
 <template>
   <div class="editor-text">
-    <!-- <div  class="link-list">
-      <v-btn small depressed dark round>
-        <v-icon>format_bold</v-icon>
-      </v-btn>
-      <v-btn small depressed dark round>
-        <v-icon>format_italic</v-icon>
-      </v-btn>
-      <v-btn small depressed dark round>
-        <v-icon>format_strikethrough</v-icon>
-      </v-btn>
-      <v-btn small depressed dark round>
-        <v-icon>link</v-icon>
-      </v-btn>
-      <v-btn small depressed dark round>
-        <v-icon>code</v-icon>
-      </v-btn>
-      <v-btn small depressed dark round>
-        <v-icon>grid_on</v-icon>
-      </v-btn> -->
-      <!-- <a small @click="insertMetachars('**','**');"><v-icon>format_bold</v-icon></a>
-      <a small @click="insertMetachars('*','*');"><v-icon>format_italic</v-icon></a>
-      <a small @click="insertMetachars('~~','~~');"><v-icon>format_strikethrough</v-icon></a>
-      <a small @click="insertMetachars('','[Google](www.google.com)');"><v-icon>link</v-icon></a>
-      <a small @click="insertMetachars('```js\n','```');"><v-icon>code</v-icon></a>
-      <a small @click="insertMetachars('Tables | Are | Cool\n--- | --- | ---\n*Still* | `renders` | **nicely**\n1 | 2 | 3\n','');"><v-icon>grid_on</v-icon></a> -->
-    <!-- </div> -->
     <div :style="scrollable">
       <Editor 
         id="aceeditor"

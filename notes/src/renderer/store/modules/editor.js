@@ -50,9 +50,12 @@ const actions = {
   },
   deleteNote ({state, commit}) {
     const note = state.active
-    fileApi.deleteNote(note.location.fullPath, note.id).then(() => {
+    fileApi.deleteNote(note.project.fullPath, note.id).then(() => {
       commit('deletNote', note.id)
     })
+      .then(() => {
+        commit('activateNote', state.notes[0].id)
+      })
   },
   activateNote ({state, commit}, id) {
     return fileApi.writeNote(state.active)
@@ -61,7 +64,6 @@ const actions = {
       })
   },
   writeCurrentNote ({state}) {
-    console.info('writeCurrentNote')
     return fileApi.writeNote(state.active)
   },
   addProject ({commit}, {path, name}) {
@@ -70,8 +72,7 @@ const actions = {
       commit('addProject', project)
     })
   },
-  updateNoteText ({state, commit}, text) {
-    console.info('updateNoteText')
+  updateNoteText ({commit}, text) {
     commit('updateNoteText', text)
   },
   ensureUserSettings ({dispatch}) {

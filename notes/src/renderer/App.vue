@@ -1,12 +1,12 @@
 <template>
-  <div id="app">
+  <div id="app" >
     <v-app>
-      <v-navigation-drawer class="drawer" dark fixed :clipped="clipped" v-model="drawer" app>
+      <v-navigation-drawer class="drawer" fixed :clipped="clipped" dark v-model="drawer" app>
         <v-list>
           
           <v-list-tile>
             <v-list-tile-title><h2>Notes</h2></v-list-tile-title>
-            <v-btn @click="$router.push('/newNote')" flat icon color="white">
+            <v-btn @click="$router.push('/new-note')" flat icon color="white">
               <v-icon>playlist_add</v-icon>
             </v-btn>
             <v-btn :disabled="activeNote === null" @click="showModal = true" flat icon color="white">
@@ -55,7 +55,7 @@
         </v-container>
       </v-content>
       
-      <v-navigation-drawer temporary fixed :right="right" v-model="rightDrawer" >
+      <v-navigation-drawer dark :class="rightDrawer ? 'right-drawer-open' : 'right-drawer-closed'" fixed temporary :right="right" v-model="rightDrawer">
         <RightDrawer></RightDrawer>
       </v-navigation-drawer>
 
@@ -165,6 +165,12 @@ export default {
 <style lang="css" scoped>
 .drawer {
   /* background-color: #263238; */
+}
+.right-drawer-open {
+  width: 500px !important;
+}
+.right-drawer-closed {
+  width: 0px !important;
 }
 .note {
   background-color: #616161;

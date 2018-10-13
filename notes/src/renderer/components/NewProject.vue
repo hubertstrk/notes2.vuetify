@@ -11,7 +11,7 @@
 
     <v-btn :disabled="this.selectedPath === '' && this.selectedName === ''" @click="addProject" color="primary">Add Project</v-btn>
 
-    <div class="grey--text text--darken-3">Create project with name <kbd>{{hintName}}</kbd> at location <kbd>{{hintPath}}</kbd>.</div>
+    <div class="grey--text text--darken-3">Create project with name <i>{{hintName}}</i> at location <i>{{hintPath}}</i></div>
 
   </div>
 </template>
