@@ -6,7 +6,8 @@ import settingsManager from '@api/settings-manager'
 
 const state = {
   settings: {
-    paths: []
+    paths: [],
+    editorTheme: ''
   },
   active: null,
   notes: [],
@@ -36,6 +37,9 @@ const mutations = {
   deletNote (state, id) {
     const index = state.notes.findIndex(x => x.id === id)
     state.notes.splice(index, 1)
+  },
+  setEditorTheme (state, theme) {
+    state.settings.editorTheme = theme
   }
 }
 
@@ -84,9 +88,7 @@ const actions = {
       .then(settings => commit('setUserSettings', settings))
   },
   writeUserSettings ({state}) {
-    return settingsManager.writeUserSettings(state.settings).then(() => {
-      console.info('writeUserSettings done')
-    })
+    return settingsManager.writeUserSettings(state.settings)
   },
   readProjects ({state, dispatch}) {
     return dispatch('readProjectsByPaths', state.settings.paths)
@@ -131,6 +133,10 @@ const actions = {
       .then(() => {
         return dispatch('readNotes')
       })
+  },
+  setEditorTheme ({commit, dispatch}, theme) {
+    commit('setEditorTheme', theme)
+    dispatch('writeUserSettings')
   }
 }
 
