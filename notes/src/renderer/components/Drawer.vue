@@ -2,6 +2,7 @@
   <div class="drawer">
     <v-list two-line subheader>
       <v-subheader>Settings</v-subheader>
+      
       <v-list-tile avatar @click="$router.push('/new-project')">
         <v-list-tile-content>
           <v-list-tile-title>Create Projects</v-list-tile-title>
@@ -28,8 +29,6 @@
 
 <script>
   export default {
-    components: {
-    }
   }
 </script>
 

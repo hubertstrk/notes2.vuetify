@@ -2,15 +2,11 @@
   <div class="editor-text">
     <div :style="scrollable">
       <Editor 
-        id="aceeditor"
-        @init="editorInit"
-        ref="aceeditor"
-        :value="active ? active.text : ''"
-        @input="storeNote"
-        lang="markdown"
+        id="aceeditor" @init="editorInit" 
+        :value="active ? active.text : ''" 
         :theme="theme ? theme : 'chrome'"
-        width="100%" 
-        height="100%">
+        @input="storeNote" lang="markdown" 
+        width="100%" height="100%">
       </Editor>
     </div>
   </div>
@@ -19,31 +15,13 @@
 <script>
 import _ from 'lodash'
 import Editor from 'vue2-ace-editor'
-
-import 'brace/ext/language_tools'
-import 'brace/mode/html'
-import 'brace/mode/markdown'
-
-import 'brace/theme/chrome'
-import 'brace/theme/dawn'
-import 'brace/theme/eclipse'
-import 'brace/theme/solarized_dark'
-import 'brace/theme/cobalt'
-import 'brace/theme/terminal'
-import 'brace/theme/tomorrow'
-
 import {SizeMixin} from './SizeMixin.js'
 
 export default {
   name: 'editor-markdown',
   mixins: [SizeMixin],
   props: ['elements'],
-  data () {
-    return {
-      name: 'editor-markdown',
-      toggle_multiple: [0, 1, 2, 3, 4, 5]
-    }
-  },
+  data: () => ({}),
   computed: {
     active () {
       return this.$store.state.editor.active
@@ -83,7 +61,7 @@ export default {
 
 <style lang="css" scoped>
 .editor-text {
-  min-width: 300px; 
+  min-width: 200px;
   flex: 2;
 }
 </style>

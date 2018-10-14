@@ -1,18 +1,10 @@
 <template>
   <div id="app" >
-    <v-app :class="appThemeStyle">
+    <v-app>
       <v-navigation-drawer dark class="drawer" fixed :clipped="clipped" v-model="drawer" app>
         <v-list>
           
-          <v-list-tile>
-            <v-list-tile-title><h2>Notes</h2></v-list-tile-title>
-            <v-btn @click="$router.push('/new-note')" flat icon color="white">
-              <v-icon>playlist_add</v-icon>
-            </v-btn>
-            <v-btn :disabled="activeNote === null" @click="showModal = true" flat icon color="white">
-              <v-icon>delete_outline</v-icon>
-            </v-btn>
-          </v-list-tile>
+          <NotesTitle />
           
           <v-divider></v-divider>
           
@@ -59,36 +51,14 @@
         <RightDrawer></RightDrawer>
       </v-navigation-drawer>
 
-    <v-dialog v-model="showModal" width="500">
-      <v-card>
-        <v-card-title class="headline grey lighten-2" primary-title>
-          Delete Note
-        </v-card-title>
-        <v-card-text>
-          Are you sure you want to delete the current note with title '{{activeNoteTitle}}'?
-        </v-card-text>
-
-        <v-divider></v-divider>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="warning" flat @click="deleteNote">
-            Yes
-          </v-btn>
-          <v-btn color="primary" flat @click="showModal = false">
-            No
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
     </v-app>
   </div>
 </template>
 
 <script>
 import _ from 'lodash'
-import RightDrawer from './components/Drawer.vue'
+import NotesTitle from '@/components/NotesTitle'
+import RightDrawer from '@/components/Drawer.vue'
 
 export default {
   name: 'notes',
@@ -98,12 +68,7 @@ export default {
     fixed: false,
     right: true,
     rightDrawer: false,
-    title: 'Editor',
-    admins: [
-      ['Management', 'people_outline'],
-      ['Settings', 'settings']
-    ],
-    showModal: false
+    title: 'Editor'
   }),
   computed: {
     projectNotes () {
@@ -127,19 +92,12 @@ export default {
     },
     activeNoteProject () {
       return this.$store.state.editor.active ? this.$store.state.editor.active.project.fullPath : ''
-    },
-    activeNoteTitle () {
-      return this.$store.state.editor.active ? this.$store.state.editor.active.headings[0].text : ''
     }
   },
   methods: {
     activateNote (id) {
       this.$router.push('/')
       this.$store.dispatch('activateNote', id)
-    },
-    deleteNote () {
-      this.showModal = false
-      this.$store.dispatch('deleteNote')
     }
   },
   mounted () {
@@ -152,6 +110,7 @@ export default {
       })
   },
   components: {
+    NotesTitle,
     RightDrawer
   }
 }

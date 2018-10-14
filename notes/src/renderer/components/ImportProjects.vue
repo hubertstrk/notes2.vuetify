@@ -3,7 +3,6 @@
     <div class="display-3">Import Projects</div>
     <div class="subheading">Import all projects from the selected location. 
       This might be the case if you want to set up your notes for the first time on a new device. </div>
-    
     <v-btn @click="openFolder" color="primary">Select Location</v-btn>
     <br>
     <v-btn @click="importProjects" color="primary">
@@ -47,15 +46,6 @@ export default {
     hintPath () {
       return this.selectedPath ? this.selectedPath : 'my path'
     }
-  },
-  watch: {
-    existingLocation (value) {
-      if (!value) {
-
-      }
-    }
-  },
-  components: {
   }
 }
 </script>

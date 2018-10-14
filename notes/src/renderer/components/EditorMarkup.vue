@@ -31,8 +31,8 @@ export default {
 
 <style lang="css" scoped>
 .editor-markup {
-  min-width: 300px; 
-  flex: 2; 
+  min-width: 200px; 
+  flex: 2;
 }
 
 .compiled-markup {

@@ -1,9 +1,7 @@
 export const SizeMixin = {
-  data () {
-    return {
-      scrollable: {}
-    }
-  },
+  data: () => ({
+    scrollable: {}
+  }),
   methods: {
     computeHeight () {
       // console.info(`compute height for component ${this.name}`)
