@@ -5,18 +5,20 @@
     <div class="display-1">App Theme</div>
     <div class="subheading">Select the app's theme.</div>
     <div>
-      <v-select :class="currentAppTheme === 'dark' ? 'theme--dark' : 'theme--light'" v-model="appTheme" :items="appThemeItems" label="Editor Theme" solo></v-select>
+      <v-select :class="appThemeStyle" v-model="appTheme" :items="appThemeItems" label="Editor Theme" solo></v-select>
     </div>
 
     <div class="display-1">Editor Theme</div>
     <div class="subheading">Select the editor's theme.</div>
     <div>
-      <v-select :class="currentAppTheme === 'dark' ? 'theme--dark' : 'theme--light'" v-model="editorTheme" :items="editorThemeItems" label="Editor Theme" solo></v-select>
+      <v-select :class="appThemeStyle" v-model="editorTheme" :items="editorThemeItems" label="Editor Theme" solo></v-select>
     </div>
   </div>
 </template>
 
 <script>
+import {AppThemeMixin} from './AppThemeMixin'
+
 export default {
   name: 'Theme',
   data: () => ({
@@ -34,6 +36,7 @@ export default {
       {label: 'Tomorrow', name: 'tomorrow'}
     ]
   }),
+  mixins: [AppThemeMixin],
   computed: {
     appThemeItems () {
       return this.addThemes.map(x => x.label)

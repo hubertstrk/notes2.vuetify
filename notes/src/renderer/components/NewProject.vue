@@ -7,17 +7,18 @@
     
     <v-btn @click="openFolder" color="primary">Select Location</v-btn>
 
-    <v-text-field v-model="selectedName" label="Name" required ></v-text-field>
+    <v-text-field v-model="selectedName" label="Project Name"></v-text-field>
 
-    <v-btn :disabled="this.selectedPath === '' && this.selectedName === ''" @click="addProject" color="primary">Add Project</v-btn>
+    <v-btn @click="addProject" color="primary">Add Project</v-btn>
 
-    <div class="grey--text text--darken-3">Create project with name <i>{{hintName}}</i> at location <i>{{hintPath}}</i></div>
+    <div class="primary--text">Create project with name <i>{{hintName}}</i> at location <i>{{hintPath}}</i></div>
 
   </div>
 </template>
 
 <script>
 const {dialog} = require('electron').remote
+
 export default {
   name: 'NewProject',
   data () {
@@ -38,6 +39,7 @@ export default {
       })
     },
     addProject () {
+      if (!this.selectedPath && !this.selectedName) return
       this.$router.push('/')
       this.$store.dispatch('addProject', {path: this.selectedPath, name: this.selectedName})
         .catch((error) => {
@@ -52,8 +54,6 @@ export default {
     hintName () {
       return this.selectedName ? this.selectedName : 'my name'
     }
-  },
-  components: {
   }
 }
 </script>

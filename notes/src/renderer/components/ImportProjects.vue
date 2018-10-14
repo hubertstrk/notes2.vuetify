@@ -6,11 +6,11 @@
     
     <v-btn @click="openFolder" color="primary">Select Location</v-btn>
     <br>
-    <v-btn :disabled="selectedPath === ''" @click="importProjects" color="primary">
+    <v-btn @click="importProjects" color="primary">
+      <v-icon left>sync</v-icon>
        Import Projects
-       <v-icon right dark>sync</v-icon>
     </v-btn>
-    <div class="grey--text text--darken-1">Import projects from <i>{{hintPath}}</i></div>
+    <div class="primary--text">Import projects from <i>{{hintPath}}</i></div>
   </div>
 </template>
 
@@ -35,6 +35,7 @@ export default {
       })
     },
     importProjects () {
+      if (!this.selectedPath) return
       this.$router.push('/')
       this.$store.dispatch('importProjects', this.selectedPath)
         .catch((error) => {

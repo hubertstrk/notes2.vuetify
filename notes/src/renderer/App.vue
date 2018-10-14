@@ -1,7 +1,7 @@
 <template>
   <div id="app" >
-    <v-app :class="appTheme === 'dark' ? 'theme--dark' : 'theme--light'">
-      <v-navigation-drawer class="drawer" fixed :clipped="clipped" dark v-model="drawer" app>
+    <v-app :class="appThemeStyle">
+      <v-navigation-drawer dark class="drawer" fixed :clipped="clipped" v-model="drawer" app>
         <v-list>
           
           <v-list-tile>
@@ -55,7 +55,7 @@
         </v-container>
       </v-content>
       
-      <v-navigation-drawer dark :class="rightDrawer ? 'right-drawer-open' : 'right-drawer-closed'" fixed temporary :right="right" v-model="rightDrawer">
+      <v-navigation-drawer :class="rightDrawer ? 'right-drawer-open' : 'right-drawer-closed'" fixed temporary :right="right" v-model="rightDrawer">
         <RightDrawer></RightDrawer>
       </v-navigation-drawer>
 
@@ -72,10 +72,10 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="warning" flat dark @click="deleteNote">
+          <v-btn color="warning" flat @click="deleteNote">
             Yes
           </v-btn>
-          <v-btn color="primary" flat dark @click="showModal = false">
+          <v-btn color="primary" flat @click="showModal = false">
             No
           </v-btn>
         </v-card-actions>
@@ -130,9 +130,6 @@ export default {
     },
     activeNoteTitle () {
       return this.$store.state.editor.active ? this.$store.state.editor.active.headings[0].text : ''
-    },
-    appTheme () {
-      return this.$store.state.editor.settings.appTheme
     }
   },
   methods: {
@@ -176,6 +173,6 @@ export default {
   width: 0px !important;
 }
 .note {
-  background-color: #616161;
+  /* background-color: #616161; */
 }
 </style>
