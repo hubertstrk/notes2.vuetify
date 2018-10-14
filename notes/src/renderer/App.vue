@@ -1,6 +1,6 @@
 <template>
   <div id="app" >
-    <v-app>
+    <v-app :class="appTheme === 'dark' ? 'theme--dark' : 'theme--light'">
       <v-navigation-drawer class="drawer" fixed :clipped="clipped" dark v-model="drawer" app>
         <v-list>
           
@@ -130,6 +130,9 @@ export default {
     },
     activeNoteTitle () {
       return this.$store.state.editor.active ? this.$store.state.editor.active.headings[0].text : ''
+    },
+    appTheme () {
+      return this.$store.state.editor.settings.appTheme
     }
   },
   methods: {
