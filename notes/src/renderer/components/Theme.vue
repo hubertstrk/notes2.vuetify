@@ -2,11 +2,11 @@
   <div class="theme-component">
     <div class="display-3">Appearance</div>
 
-    <div class="display-1">App Theme</div>
+    <!-- <div class="display-1">App Theme</div>
     <div class="subheading">Select the app's theme.</div>
     <div>
       <v-select :class="appThemeStyle" v-model="appTheme" :items="appThemeItems" label="Editor Theme" solo></v-select>
-    </div>
+    </div> -->
 
     <div class="display-1">Editor Theme</div>
     <div class="subheading">Select the editor's theme.</div>
@@ -28,12 +28,15 @@ export default {
     ],
     editorThemes: [
       {label: 'Chrome', name: 'chrome'},
-      {label: 'Dawn', name: 'dawn'},
-      {label: 'Eclipse', name: 'eclipse'},
-      {label: 'Solarized Dark', name: 'solarized_dark'},
+      {label: 'SQL Server', name: 'sqlserver'},
+      {label: 'Tomorrow', name: 'tomorrow'},
+      {label: 'Solarized Light', name: 'solarized_light'},
+
       {label: 'Cobalt', name: 'cobalt'},
+      {label: 'Monokai', name: 'monokai'},
+      {label: 'Solarized Dark', name: 'solarized_dark'},
       {label: 'Terminal', name: 'terminal'},
-      {label: 'Tomorrow', name: 'tomorrow'}
+      {label: 'Vibrant Ink', name: 'vibrant_ink'}
     ]
   }),
   mixins: [AppThemeMixin],

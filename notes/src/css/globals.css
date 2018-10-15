@@ -11,25 +11,6 @@ html, body{
   overflow-x: hidden;
 }
 
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-table td, table th {
-  border: 1px solid #ddd;
-  padding: 6px;
-}
-
-/* table tr:hover {background-color: rgb(236, 236, 236);} */
-
-table th {
-  padding-top: 6px;
-  padding-bottom: 6px;
-  text-align: left;
-  background-color: rgb(236, 236, 236);
-}
-
 /* do not draw any paddings inside vuetify containers because of size calculation*/
 /* .container {padding: 20px !important;} */
 
