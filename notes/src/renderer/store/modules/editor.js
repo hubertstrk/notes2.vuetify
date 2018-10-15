@@ -7,7 +7,7 @@ import settingsManager from '@api/settings-manager'
 const state = {
   settings: {
     paths: [],
-    appTheme: 'light',
+    codeTheme: 'default',
     editorTheme: 'chrome'
   },
   active: null,
@@ -42,8 +42,8 @@ const mutations = {
   setEditorTheme (state, theme) {
     state.settings.editorTheme = theme
   },
-  setAppTheme (state, theme) {
-    state.settings.appTheme = theme
+  setCodeTheme (state, theme) {
+    state.settings.codeTheme = theme
   }
 }
 
@@ -142,8 +142,8 @@ const actions = {
     commit('setEditorTheme', theme)
     dispatch('writeUserSettings')
   },
-  setAppTheme ({commit, dispatch}, theme) {
-    commit('setAppTheme', theme)
+  setCodeTheme ({commit, dispatch}, theme) {
+    commit('setCodeTheme', theme)
     dispatch('writeUserSettings')
   }
 }

@@ -22,7 +22,11 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     height: 800,
     useContentSize: true,
-    width: 1400
+    width: 1400,
+    noteIntegration: 'iframe', // and this line
+    webPreferences: {
+      webSecurity: false
+    }
   })
 
   mainWindow.loadURL(winURL)
