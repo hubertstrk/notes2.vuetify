@@ -1,24 +1,21 @@
 <template>
-  <div id="iframe-container" class="editor-markup">
-    <!-- <div class="compiled-markup" v-html="compiledMarkdown"></div>  -->
-    <!-- <iFrame src="/static/page/index.html" ref="iframe" class="iframe" frameborder="0" border="0"></iFrame> -->
+  <div :style="scrollable" id="iframe-container" class="editor-markup">
   </div>
 </template>
 
 <script>
+import {SizeMixin} from './SizeMixin.js'
 export default {
-  // props: ['elements'],
+  props: ['elements'],
   data () {
     return {
+      iFrameRef: null
     }
   },
+  mixins: [SizeMixin],
   computed: {
     compiledMarkdown () {
       if (!this.$store.state.editor.active) return ''
-      return this.$store.state.editor.active.markdown
-    },
-    markdown () {
-      if (!this.$store.state.editor.active || !this.$store.state.editor.active.markdown) return ''
       return this.$store.state.editor.active.markdown
     }
   },
@@ -32,23 +29,33 @@ export default {
       codeElements.forEach((codeEl) => {
         codeEl.classList.add(`${this.$store.state.editor.settings.codeTheme}-hljs`)
       })
-      document.querySelector('#iframe').contentDocument.body.innerHTML = container.innerHTML
+      const iFrame = document.querySelector('#iframe')
+      iFrame.contentDocument.body.innerHTML = container.innerHTML
+      iFrame.onload = function () {
+        iFrame.contentDocument.body.innerHTML = container.innerHTML
+      }
+    },
+    createIFrame () {
+      const ifrm = document.createElement('iframe')
+      ifrm.setAttribute('id', 'iframe')
+      ifrm.classList.add('iframe')
+      ifrm.setAttribute('src', '/static/page/index.html')
+      ifrm.setAttribute('frameborder', 0)
+      ifrm.setAttribute('border', 0)
+      ifrm.setAttribute('height', '100%')
+      ifrm.setAttribute('width', '100%')
+      this.iFrameRef = ifrm
+      const el = document.querySelector('#iframe-container')
+      el.appendChild(ifrm, el)
     }
   },
   watch: {
-    compiledMarkdown (markup) {
-      this.addMarkup(markup)
+    compiledMarkdown (markdown) {
+      this.addMarkup(markdown)
     }
   },
   mounted () {
-    const ifrm = document.createElement('iframe')
-    ifrm.setAttribute('id', 'iframe')
-    ifrm.classList.add('iframe')
-    ifrm.setAttribute('src', '/static/page/index.html')
-
-    const el = document.querySelector('#iframe-container')
-    el.appendChild(ifrm, el)
-
+    this.createIFrame()
     if (this.$store.state.editor.active) {
       this.addMarkup(this.$store.state.editor.active.markdown)
     }
@@ -60,19 +67,5 @@ export default {
 .editor-markup {
   min-width: 200px; 
   flex: 2;
-}
-
-.iframe {
-  height: 100%;
-  width: 100%;
-  overflow-y: auto;
-  border-style: none;
-}
-
-.compiled-markup {
-  height: 100%;
-  width: 100%;
-  overflow-y: auto;
-  padding: 5px 10px
 }
 </style>
