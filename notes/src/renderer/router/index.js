@@ -26,9 +26,9 @@ export default new Router({
       component: require('@/components/ImportProjects').default
     },
     {
-      path: '/theme',
-      name: 'Theme',
-      component: require('@/components/Theme').default
+      path: '/appearance',
+      name: 'Appearance',
+      component: require('@/components/Appearance').default
     },
     {
       path: '*',

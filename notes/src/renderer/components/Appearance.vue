@@ -2,13 +2,16 @@
   <div class="theme-component">
     <div class="display-3">Appearance</div>
 
-    <div class="display-1">Editor Theme</div>
-    <div class="subheading">Select a theme for the markdown editor.</div>
+    <div class="display-1">Editor</div>
+    <div class="subheading">Theme</div>
     <div>
       <v-select v-model="editorTheme" :items="editorThemeItems" label="Editor Theme" solo></v-select>
     </div>
+    
+    <v-switch label="Mark Current Line" v-model="highlightActiveLine"></v-switch>
+    <v-switch label="Display fold widgets" v-model="displayFoldWidgets"></v-switch>
 
-    <div class="display-1">Code Snippet Theme</div>
+    <div class="display-1">Code Theme</div>
     <div class="subheading">Select a theme for the code snippets.</div>
     <div>
       <v-select v-model="codeTheme" :items="codeThemeItems" label="Code Snippet Theme" solo></v-select>
@@ -21,7 +24,7 @@
 import {AppThemeMixin} from './AppThemeMixin'
 
 export default {
-  name: 'Theme',
+  name: 'Appearance',
   data: () => ({
     codeThemes: [
       {name: 'default', label: 'Default'},
@@ -82,6 +85,14 @@ export default {
         const theme = this.editorThemes.find(x => x.label === label)
         this.$store.dispatch('setEditorTheme', theme.name)
       }
+    },
+    displayFoldWidgets: {
+      get () { return this.$store.state.editor.settings.displayFoldWidgets },
+      set (value) { this.$store.dispatch('setDisplayFoldWidgets', value) }
+    },
+    highlightActiveLine: {
+      get () { return this.$store.state.editor.settings.highlightActiveLine },
+      set (value) { this.$store.dispatch('setHighlightActiveLine', value) }
     }
   }
 }

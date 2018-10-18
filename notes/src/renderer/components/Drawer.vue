@@ -17,7 +17,7 @@
         </v-list-tile-content>
       </v-list-tile>
 
-       <v-list-tile avatar @click="$router.push('/theme')">
+       <v-list-tile avatar @click="$router.push('/appearance')">
         <v-list-tile-content>
           <v-list-tile-title>Appearance</v-list-tile-title>
           <v-list-tile-sub-title>Change your theme settings</v-list-tile-sub-title>

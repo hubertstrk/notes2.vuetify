@@ -23,7 +23,7 @@ function createWindow () {
     height: 800,
     useContentSize: true,
     width: 1400,
-    noteIntegration: 'iframe', // and this line
+    noteIntegration: 'iframe',
     webPreferences: {
       webSecurity: false
     }

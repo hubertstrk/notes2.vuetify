@@ -8,7 +8,10 @@ const state = {
   settings: {
     paths: [],
     codeTheme: 'default',
-    editorTheme: 'chrome'
+    editorTheme: 'chrome',
+    editorFontSize: 12,
+    displayFoldWidgets: true,
+    highlightActiveLine: true
   },
   active: null,
   notes: [],
@@ -44,6 +47,15 @@ const mutations = {
   },
   setCodeTheme (state, theme) {
     state.settings.codeTheme = theme
+  },
+  setEditorFontSize (state, fontSize) {
+    state.settings.editorFontSize = fontSize
+  },
+  setDisplayFoldWidgets (state, value) {
+    state.settings.displayFoldWidgets = value
+  },
+  setHighlightActiveLine (state, value) {
+    state.settings.highlightActiveLine = value
   }
 }
 
@@ -144,6 +156,18 @@ const actions = {
   },
   setCodeTheme ({commit, dispatch}, theme) {
     commit('setCodeTheme', theme)
+    dispatch('writeUserSettings')
+  },
+  setEditorFontSize ({commit, dispatch}, fontSize) {
+    commit('setEditorFontSize', fontSize)
+    dispatch('writeUserSettings')
+  },
+  setDisplayFoldWidgets ({commit, dispatch}, value) {
+    commit('setDisplayFoldWidgets', value)
+    dispatch('writeUserSettings')
+  },
+  setHighlightActiveLine ({commit, dispatch}, value) {
+    commit('setHighlightActiveLine', value)
     dispatch('writeUserSettings')
   }
 }

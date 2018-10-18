@@ -67,5 +67,6 @@ export default {
 .editor-markup {
   min-width: 200px; 
   flex: 2;
+  overflow: hidden !important;
 }
 </style>
