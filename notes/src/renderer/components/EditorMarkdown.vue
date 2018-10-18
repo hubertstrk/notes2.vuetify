@@ -1,10 +1,10 @@
 <template>
   <div class="editor-text">
     <div class="editor-toolbar" id="editor-toolbar">
-      <v-btn small flat icon @click="zoomIn">
+      <v-btn small flat icon @click="zoom(1)">
         <v-icon>zoom_in</v-icon>
       </v-btn>
-      <v-btn small flat icon @click="zoomOut">
+      <v-btn small flat icon @click="zoom(-1)">
         <v-icon>zoom_out</v-icon>
       </v-btn>
     </div>
@@ -21,6 +21,8 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
+
 import _ from 'lodash'
 import Editor from 'vue2-ace-editor'
 import {SizeMixin} from './SizeMixin.js'
@@ -33,21 +35,13 @@ export default {
     editor: null
   }),
   computed: {
-    active () {
-      return this.$store.state.editor.active
-    },
-    theme () {
-      return this.$store.state.editor.settings.editorTheme
-    },
-    editorFontSize () {
-      return this.$store.state.editor.settings.editorFontSize
-    },
-    displayFoldWidgets () {
-      return this.$store.state.editor.settings.displayFoldWidgets
-    },
-    highlightActiveLine () {
-      return this.$store.state.editor.settings.highlightActiveLine
-    }
+    ...mapState({
+      active: state => state.editor.active,
+      theme: state => state.editor.settings.editorTheme,
+      editorFontSize: state => state.editor.settings.editorFontSize,
+      displayFoldWidgets: state => state.editor.settings.displayFoldWidgets,
+      highlightActiveLine: state => state.editor.settings.highlightActiveLine
+    })
   },
   methods: {
     storeNote (text) {
@@ -73,12 +67,9 @@ export default {
     }, 50),
     writeNote: _.debounce(function () {
       this.$store.dispatch('writeCurrentNote')
-    }, 5000),
-    zoomIn () {
-      this.$store.dispatch('setEditorFontSize', this.editorFontSize + 2)
-    },
-    zoomOut () {
-      this.$store.dispatch('setEditorFontSize', this.editorFontSize - 2)
+    }, 3000),
+    zoom (value) {
+      this.$store.dispatch('setEditorFontSize', this.editorFontSize + value)
     }
   },
   watch: {
