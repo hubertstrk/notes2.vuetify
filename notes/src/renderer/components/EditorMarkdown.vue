@@ -1,10 +1,10 @@
 <template>
   <div class="editor-text">
     <div class="editor-toolbar" id="editor-toolbar">
-      <v-btn flat icon @click="zoomIn">
+      <v-btn small flat icon @click="zoomIn">
         <v-icon>zoom_in</v-icon>
       </v-btn>
-      <v-btn flat icon @click="zoomOut">
+      <v-btn small flat icon @click="zoomOut">
         <v-icon>zoom_out</v-icon>
       </v-btn>
     </div>

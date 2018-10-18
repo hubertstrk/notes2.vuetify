@@ -23,14 +23,3 @@ a {text-decoration: none;}
 .v-btn {
   margin: 10px 0 !important;
 }
-
-code {
-  /* background-color: white; */
-  /* color: #bd4147; */
-  box-shadow: 0px 0px 0px 0px !important;
-  display: inline-block;
-  border-radius: 0px;
-  white-space: pre-wrap;
-  font-size: 85%;
-  font-weight: 900;
-}

@@ -11,8 +11,8 @@
     <v-switch label="Mark Current Line" v-model="highlightActiveLine"></v-switch>
     <v-switch label="Display fold widgets" v-model="displayFoldWidgets"></v-switch>
 
-    <div class="display-1">Code Theme</div>
-    <div class="subheading">Select a theme for the code snippets.</div>
+    <div class="display-1">Code</div>
+    <div class="subheading">Theme</div>
     <div>
       <v-select v-model="codeTheme" :items="codeThemeItems" label="Code Snippet Theme" solo></v-select>
     </div>

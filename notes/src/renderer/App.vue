@@ -27,7 +27,7 @@
         </v-container>
       </v-content>
       <v-navigation-drawer :class="rightDrawer ? 'right-drawer-open' : 'right-drawer-closed'" fixed temporary :right="right" v-model="rightDrawer">
-        <RightDrawer></RightDrawer>
+        <Drawer></Drawer>
       </v-navigation-drawer>
     </v-app>
   </div>
@@ -36,7 +36,7 @@
 <script>
 import NotesTitle from '@/components/NotesTitle'
 import NotesList from '@/components/NotesList'
-import RightDrawer from '@/components/Drawer.vue'
+import Drawer from '@/components/Drawer.vue'
 
 export default {
   name: 'notes',
@@ -60,7 +60,7 @@ export default {
   components: {
     NotesTitle,
     NotesList,
-    RightDrawer
+    Drawer
   }
 }
 </script>
@@ -75,7 +75,7 @@ export default {
   /* background-color: #263238; */
 }
 .right-drawer-open {
-  width: 500px !important;
+  width: 400px !important;
 }
 .right-drawer-closed {
   width: 0px !important;
