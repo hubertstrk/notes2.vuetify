@@ -1,12 +1,18 @@
 <template>
   <div class="editor-text">
     <div class="editor-toolbar" id="editor-toolbar">
-      <v-btn small flat icon @click="zoom(1)">
-        <v-icon>zoom_in</v-icon>
-      </v-btn>
-      <v-btn small flat icon @click="zoom(-1)">
-        <v-icon>zoom_out</v-icon>
-      </v-btn>
+      <div>
+        <v-btn small flat icon @click="zoom(1)"><v-icon>zoom_in</v-icon></v-btn>
+        <v-btn small flat icon @click="zoom(-1)"><v-icon>zoom_out</v-icon></v-btn>
+      </div>
+      <div>
+        <v-btn small flat icon @click="insert('****', {line: 0, column: 2})"><v-icon>format_bold</v-icon></v-btn>
+        <v-btn small flat icon @click="insert('**', {line: 0, column: 1})"><v-icon>format_italic</v-icon></v-btn>
+        <v-btn small flat icon @click="insert('~~~~', {line: 0, column: 2})"><v-icon>format_strikethrough</v-icon></v-btn>
+        <v-btn small flat icon @click="insert('[Google](www.google.com)', {line: 0, column: 0})"><v-icon>link</v-icon></v-btn>
+        <v-btn small flat icon @click="insert('```js\n\n```', {line: 1, column: 10})"><v-icon>code</v-icon></v-btn>
+        <v-btn small flat icon @click="insert('Tables | Are | Cool\n--- | --- | ---\n*Still* | `renders` | **nicely**\n1 | 2 | 3\n', {line: 0, column: 0})"><v-icon>grid_on</v-icon></v-btn>
+      </div>
     </div>
     <div :style="scrollable">
       <Editor 
@@ -70,6 +76,12 @@ export default {
     }, 3000),
     zoom (value) {
       this.$store.dispatch('setEditorFontSize', this.editorFontSize + value)
+    },
+    insert (value, {line, column}) {
+      this.editor.insert(value)
+      const position = this.editor.getCursorPosition()
+      this.editor.moveCursorTo(position.row - line, position.column - column)
+      this.editor.focus()
     }
   },
   watch: {
@@ -100,5 +112,6 @@ export default {
   height: 40px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 </style>

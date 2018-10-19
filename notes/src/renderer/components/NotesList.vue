@@ -17,8 +17,13 @@
 
 <script>
 import _ from 'lodash'
+import {mapState} from 'vuex'
+
 export default {
   computed: {
+    ...mapState({
+      active: state => state.editor.active
+    }),
     projectNotes () {
       const formatNote = note => {
         return {
@@ -35,11 +40,8 @@ export default {
       })
       return _.sortBy(projectNotes, ['project.name'])
     },
-    activeNote () {
-      return this.$store.state.editor.active
-    },
     activeNoteProject () {
-      return this.$store.state.editor.active ? this.$store.state.editor.active.project.fullPath : ''
+      return this.active ? this.active.project.fullPath : ''
     }
   },
   methods: {

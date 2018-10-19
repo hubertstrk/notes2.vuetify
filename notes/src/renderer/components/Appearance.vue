@@ -5,7 +5,7 @@
     <div class="display-1">Editor</div>
     <div class="subheading">Theme</div>
     <div>
-      <v-select v-model="editorTheme" :items="editorThemeItems" label="Editor Theme" solo></v-select>
+      <v-select v-model="selectedEditorTheme" :items="editorThemeItems" label="Editor Theme" solo></v-select>
     </div>
     
     <v-switch label="Mark Current Line" v-model="highlightActiveLine"></v-switch>
@@ -14,36 +14,41 @@
     <div class="display-1">Code</div>
     <div class="subheading">Theme</div>
     <div>
-      <v-select v-model="codeTheme" :items="codeThemeItems" label="Code Snippet Theme" solo></v-select>
+      <v-select v-model="selectedCodeTheme" :items="codeThemeItems" label="Code Snippet Theme" solo></v-select>
     </div>
 
   </div>
 </template>
 
 <script>
+import {mapState} from 'vuex'
+
 import CodeThemes from '@js/code-themes'
 import EditorThemes from '@js/editor-themes'
 
 export default {
   name: 'Appearance',
   data () {
-    return {}
+    return {
+      namespace: 'editor.settings'
+    }
   },
   computed: {
+    ...mapState({
+      codeTheme: state => state.editor.settings.codeTheme,
+      editorTheme: state => state.editor.settings.editorTheme,
+      foldWidgets: state => state.editor.settings.displayFoldWidgets,
+      highlightLine: state => state.editor.settings.highlightActiveLine
+    }),
     codeThemeItems () {
-      console.info(CodeThemes)
       return CodeThemes.map(x => x.label)
     },
     editorThemeItems () {
-      console.info(EditorThemes)
       return EditorThemes.map(x => x.label)
     },
-    currentAppTheme () {
-      return this.$store.state.editor.settings.appTheme
-    },
-    codeTheme: {
+    selectedCodeTheme: {
       get () {
-        const theme = CodeThemes.find(x => x.name === this.$store.state.editor.settings.codeTheme)
+        const theme = CodeThemes.find(x => x.name === this.codeTheme)
         return theme ? theme.label : ''
       },
       set (label) {
@@ -51,9 +56,9 @@ export default {
         this.$store.dispatch('setCodeTheme', theme.name)
       }
     },
-    editorTheme: {
+    selectedEditorTheme: {
       get () {
-        const theme = EditorThemes.find(x => x.name === this.$store.state.editor.settings.editorTheme)
+        const theme = EditorThemes.find(x => x.name === this.editorTheme)
         return theme ? theme.label : ''
       },
       set (label) {
@@ -62,11 +67,11 @@ export default {
       }
     },
     displayFoldWidgets: {
-      get () { return this.$store.state.editor.settings.displayFoldWidgets },
+      get () { return this.foldWidgets },
       set (value) { this.$store.dispatch('setDisplayFoldWidgets', value) }
     },
     highlightActiveLine: {
-      get () { return this.$store.state.editor.settings.highlightActiveLine },
+      get () { return this.highlightLine },
       set (value) { this.$store.dispatch('setHighlightActiveLine', value) }
     }
   }
