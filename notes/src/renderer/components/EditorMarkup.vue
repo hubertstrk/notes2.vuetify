@@ -1,6 +1,5 @@
 <template>
-  <div :style="scrollable" id="iframe-container" class="editor-markup">
-  </div>
+  <div :style="scrollable" id="iframe-container" class="editor-markup"></div>
 </template>
 
 <script>

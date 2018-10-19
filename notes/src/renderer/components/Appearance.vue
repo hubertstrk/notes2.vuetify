@@ -21,68 +21,43 @@
 </template>
 
 <script>
-import {AppThemeMixin} from './AppThemeMixin'
+import CodeThemes from '@js/code-themes'
+import EditorThemes from '@js/editor-themes'
 
 export default {
   name: 'Appearance',
-  data: () => ({
-    codeThemes: [
-      {name: 'default', label: 'Default'},
-      {name: 'arta', label: 'Arta'},
-      {name: 'atom-one-dark', label: 'Atom One Dark'},
-      {name: 'dracula', label: 'Dracula'},
-      {name: 'github', label: 'Github'},
-      {name: 'monokai', label: 'Monokai'},
-      {name: 'sunburst', label: 'Sunburst'},
-      {name: 'railscasts', label: 'Railscasts'},
-      {name: 'solarized-dark', label: 'Solarized Dark'},
-      {name: 'tomorrow-night-blue', label: 'Tomorrow Night Blue'},
-      {name: 'vs', label: 'Visual Studio'},
-      {name: 'vs2015', label: 'Visual Studio Dark'},
-      {name: 'zenburn', label: 'Zenburn'}
-    ],
-    editorThemes: [
-      // light
-      {label: 'Chrome', name: 'chrome'},
-      {label: 'SQL Server', name: 'sqlserver'},
-      {label: 'Tomorrow', name: 'tomorrow'},
-      {label: 'Solarized Light', name: 'solarized_light'},
-      // dark
-      {label: 'Cobalt', name: 'cobalt'},
-      {label: 'Monokai', name: 'monokai'},
-      {label: 'Solarized Dark', name: 'solarized_dark'},
-      {label: 'Terminal', name: 'terminal'},
-      {label: 'Vibrant Ink', name: 'vibrant_ink'}
-    ]
-  }),
-  mixins: [AppThemeMixin],
+  data () {
+    return {}
+  },
   computed: {
     codeThemeItems () {
-      return this.codeThemes.map(x => x.label)
+      console.info(CodeThemes)
+      return CodeThemes.map(x => x.label)
     },
     editorThemeItems () {
-      return this.editorThemes.map(x => x.label)
+      console.info(EditorThemes)
+      return EditorThemes.map(x => x.label)
     },
     currentAppTheme () {
       return this.$store.state.editor.settings.appTheme
     },
     codeTheme: {
       get () {
-        const theme = this.codeThemes.find(x => x.name === this.$store.state.editor.settings.codeTheme)
+        const theme = CodeThemes.find(x => x.name === this.$store.state.editor.settings.codeTheme)
         return theme ? theme.label : ''
       },
       set (label) {
-        const theme = this.codeThemes.find(x => x.label === label)
+        const theme = CodeThemes.find(x => x.label === label)
         this.$store.dispatch('setCodeTheme', theme.name)
       }
     },
     editorTheme: {
       get () {
-        const theme = this.editorThemes.find(x => x.name === this.$store.state.editor.settings.editorTheme)
+        const theme = EditorThemes.find(x => x.name === this.$store.state.editor.settings.editorTheme)
         return theme ? theme.label : ''
       },
       set (label) {
-        const theme = this.editorThemes.find(x => x.label === label)
+        const theme = EditorThemes.find(x => x.label === label)
         this.$store.dispatch('setEditorTheme', theme.name)
       }
     },
