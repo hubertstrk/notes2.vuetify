@@ -34,11 +34,11 @@ export default {
     }
   },
   computed: {
-    ...mapState('editor', {
-      codeTheme: state => state.settings.codeTheme,
-      editorTheme: state => state.settings.editorTheme,
-      foldWidgets: state => state.settings.displayFoldWidgets,
-      highlightLine: state => state.settings.highlightActiveLine
+    ...mapState({
+      codeTheme: state => state.editor.settings.codeTheme,
+      editorTheme: state => state.editor.settings.editorTheme,
+      foldWidgets: state => state.editor.settings.displayFoldWidgets,
+      highlightLine: state => state.editor.settings.highlightActiveLine
     }),
     codeThemeItems () {
       return CodeThemes.map(x => x.label)

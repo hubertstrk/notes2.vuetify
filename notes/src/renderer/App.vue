@@ -1,13 +1,13 @@
 <template>
   <div id="app" >
     <v-app>
+      
       <v-navigation-drawer dark class="left-drawer" fixed :clipped="clipped" v-model="drawer" app>
-        <v-list>
-          <NotesTitle />
-          <v-divider></v-divider>
-          <NotesList />
-        </v-list>
+        <NotesToolbar />
+        <NotesStarred />
+        <NotesList />
       </v-navigation-drawer>
+
       <v-toolbar id="app-tool-bar" fixed app :clipped-left="clipped">
         <v-toolbar-side-icon @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
         <v-btn icon @click.native.stop="clipped = !clipped">
@@ -34,7 +34,8 @@
 </template>
 
 <script>
-import NotesTitle from '@/components/NotesTitle'
+import NotesStarred from '@/components/NotesStarred'
+import NotesToolbar from '@/components/NotesToolbar'
 import NotesList from '@/components/NotesList'
 import Drawer from '@/components/Drawer.vue'
 
@@ -69,9 +70,10 @@ export default {
     }
   },
   components: {
-    NotesTitle,
+    NotesToolbar,
     NotesList,
-    Drawer
+    Drawer,
+    NotesStarred
   }
 }
 </script>

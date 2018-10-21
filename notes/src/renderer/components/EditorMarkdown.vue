@@ -2,6 +2,9 @@
   <div class="editor-text">
     <div class="toolbar header" id="editor-toolbar">
       <div>
+        <v-btn v-if="isActiveStarred" small flat icon @click="toggleStarred"><v-icon color="yellow darken-2">star</v-icon></v-btn>
+        <v-btn v-else small flat icon @click="toggleStarred"><v-icon color="grey lighten-1">star</v-icon></v-btn>
+
         <v-btn small flat icon @click="zoom(1)"><v-icon>zoom_in</v-icon></v-btn>
         <v-btn small flat icon @click="zoom(-1)"><v-icon>zoom_out</v-icon></v-btn>
       </div>
@@ -47,14 +50,19 @@ export default {
     status: ''
   }),
   computed: {
-    ...mapState('editor', {
-      theme: state => state.settings.editorTheme,
-      editorFontSize: state => state.settings.editorFontSize,
-      displayFoldWidgets: state => state.settings.displayFoldWidgets,
-      highlightActiveLine: state => state.settings.highlightActiveLine
+    ...mapState({
+      starred: state => state.editor.settings.starred,
+      active: state => state.editor.settings.active,
+      theme: state => state.editor.settings.editorTheme,
+      editorFontSize: state => state.editor.settings.editorFontSize,
+      displayFoldWidgets: state => state.editor.settings.displayFoldWidgets,
+      highlightActiveLine: state => state.editor.settings.highlightActiveLine
     }),
     activeNote () {
       return this.$store.getters.activeNote
+    },
+    isActiveStarred () {
+      return this.starred ? this.starred.includes(this.active) : false
     }
   },
   methods: {
@@ -102,6 +110,9 @@ export default {
       const {row, column} = this.editor.getCursorPosition()
       this.editor.moveCursorTo(row - diffRow, column - diffColumn)
       this.editor.focus()
+    },
+    toggleStarred () {
+      this.$store.dispatch('toggleStarred', this.activeNote.id)
     }
   },
   watch: {

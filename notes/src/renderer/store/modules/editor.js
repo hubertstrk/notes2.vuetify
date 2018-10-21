@@ -65,11 +65,11 @@ const mutations = {
     state.settings.appTheme = theme
   },
   toggleStarred (state, id) {
-    const index = state.starred.indexOf(id)
+    const index = state.settings.starred.indexOf(id)
     if (index === -1) {
-      state.starred.push(id)
+      state.settings.starred.push(id)
     } else {
-      state.starred.splice(index, 1)
+      state.settings.starred.splice(index, 1)
     }
   }
 }
@@ -205,6 +205,15 @@ const getters = {
       return state.notes[index]
     }
     return null
+  },
+  starredNotes: state => {
+    const starred = state.notes.reduce((starred, note) => {
+      if (state.settings.starred.find(x => x === note.id)) {
+        starred.push(note)
+      }
+      return starred
+    }, [])
+    return starred
   }
 }
 
