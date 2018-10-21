@@ -17,13 +17,12 @@
 
 <script>
 import _ from 'lodash'
-import {mapState} from 'vuex'
 
 export default {
   computed: {
-    ...mapState({
-      active: state => state.editor.active
-    }),
+    active () {
+      return this.$store.getters.activeNote
+    },
     projectNotes () {
       const formatNote = note => {
         return {

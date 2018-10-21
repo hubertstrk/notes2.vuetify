@@ -1,7 +1,6 @@
 import Project from '@model/Location'
 import Note from '@model/Note'
 import fileApi from '@api/file'
-
 import settingsManager from '@api/settings-manager'
 
 const state = {
@@ -11,9 +10,11 @@ const state = {
     editorTheme: 'chrome',
     editorFontSize: 12,
     displayFoldWidgets: true,
-    highlightActiveLine: true
+    highlightActiveLine: true,
+    appTheme: '#424242',
+    starred: [],
+    active: null // id
   },
-  active: null,
   notes: [],
   projects: []
 }
@@ -26,11 +27,11 @@ const mutations = {
     state.settings.paths.push(path)
   },
   activateNote (state, id) {
-    const index = state.notes.findIndex(x => x.id === id)
-    state.active = state.notes[index]
+    state.settings.active = id
   },
   updateNoteText (state, text) {
-    state.active.setText(text)
+    const index = state.notes.findIndex(x => x.id === state.settings.active)
+    state.notes[index].setText(text)
   },
   setUserSettings (state, settings) {
     Object.assign(state.settings, settings)
@@ -41,6 +42,9 @@ const mutations = {
   deletNote (state, id) {
     const index = state.notes.findIndex(x => x.id === id)
     state.notes.splice(index, 1)
+    if (state.settings.active === id) {
+      state.settings.active = null
+    }
   },
   setEditorTheme (state, theme) {
     state.settings.editorTheme = theme
@@ -56,6 +60,17 @@ const mutations = {
   },
   setHighlightActiveLine (state, value) {
     state.settings.highlightActiveLine = value
+  },
+  setAppTheme (state, theme) {
+    state.settings.appTheme = theme
+  },
+  toggleStarred (state, id) {
+    const index = state.starred.indexOf(id)
+    if (index === -1) {
+      state.starred.push(id)
+    } else {
+      state.starred.splice(index, 1)
+    }
   }
 }
 
@@ -68,23 +83,21 @@ const actions = {
       commit('activateNote', note.id)
     })
   },
-  deleteNote ({state, commit}) {
-    const note = state.active
-    fileApi.deleteNote(note.project.fullPath, note.id).then(() => {
-      commit('deletNote', note.id)
-    })
-      .then(() => {
-        commit('activateNote', state.notes[0].id)
-      })
+  deleteNote ({state, commit, getters}) {
+    const activeNote = getters.activeNote
+    if (activeNote) {
+      fileApi.deleteNote(activeNote.project.fullPath, activeNote.id)
+    }
+    commit('deletNote', activeNote.id)
   },
-  activateNote ({state, commit}, id) {
-    return fileApi.writeNote(state.active)
-      .then(() => {
-        commit('activateNote', id)
-      })
+  activateNote ({state, commit, getters}, id) {
+    if (getters.activeNote) {
+      fileApi.writeNote(getters.activeNote)
+    }
+    commit('activateNote', id)
   },
-  writeCurrentNote ({state}) {
-    return fileApi.writeNote(state.active)
+  writeCurrentNote ({getters}) {
+    return fileApi.writeNote(getters.activeNote)
   },
   addProject ({commit}, {path, name}) {
     const project = new Project(path, name)
@@ -126,16 +139,13 @@ const actions = {
       return dispatch('readNotesByProject', project)
     })
   },
-  readNotesByProject ({state, commit}, project) {
+  readNotesByProject ({commit}, project) {
     return fileApi.readDirectory(project.fullPath).then((filePaths) => {
       filePaths.map((filePath) => {
         return fileApi.readFile(filePath.path, filePath.name).then((text) => {
           const note = new Note(filePath.name, project)
           note.setText(text)
           commit('addNote', note)
-          if (!state.active) {
-            commit('activateNote', note.id)
-          }
         })
       })
     })
@@ -169,6 +179,14 @@ const actions = {
   setHighlightActiveLine ({commit, dispatch}, value) {
     commit('setHighlightActiveLine', value)
     dispatch('writeUserSettings')
+  },
+  setAppTheme ({commit, dispatch}, color) {
+    commit('setAppTheme', color)
+    dispatch('writeUserSettings')
+  },
+  toggleStarred ({commit, dispatch}, id) {
+    commit('toggleStarred', id)
+    dispatch('writeUserSettings')
   }
 }
 
@@ -180,6 +198,13 @@ const getters = {
         notes: state.notes.filter(note => note.project.equals(project))
       }
     })
+  },
+  activeNote: state => {
+    if (state.settings.active) {
+      const index = state.notes.findIndex(x => x.id === state.settings.active)
+      return state.notes[index]
+    }
+    return null
   }
 }
 

@@ -1,6 +1,6 @@
 <template>
   <v-layout row wrap justify-center id="wrapper">
-    <EditorMarkdown :elements="['app-tool-bar', 'editor-toolbar']"></EditorMarkdown>
+    <EditorMarkdown :elements="['app-tool-bar', 'editor-toolbar', 'editor-footer']"></EditorMarkdown>
     <EditorMarkup :elements="['app-tool-bar']"></EditorMarkup>
   </v-layout>
 </template>

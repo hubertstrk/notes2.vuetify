@@ -5,7 +5,6 @@
       <DrawerItem route="/new-project" icon="cloud_done" title="Create Projects" subtitle="Create new projects to organize your notes"/>
       <DrawerItem route="/import-projects" icon="cloud_download" title="Import Projects" subtitle="Import existing projects"/>
       <DrawerItem route="/appearance" icon="color_lens" title="Appearance" subtitle="Change your theme settings"/>
-      
     </v-list>
   </div>
 </template>

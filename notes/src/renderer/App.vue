@@ -1,7 +1,7 @@
 <template>
   <div id="app" >
     <v-app>
-      <v-navigation-drawer dark class="drawer" fixed :clipped="clipped" v-model="drawer" app>
+      <v-navigation-drawer dark class="left-drawer" fixed :clipped="clipped" v-model="drawer" app>
         <v-list>
           <NotesTitle />
           <v-divider></v-divider>
@@ -26,7 +26,7 @@
           </v-slide-y-transition>
         </v-container>
       </v-content>
-      <v-navigation-drawer :class="rightDrawer ? 'right-drawer-open' : 'right-drawer-closed'" fixed temporary :right="right" v-model="rightDrawer">
+      <v-navigation-drawer :class="rightDrawer ? 'right-drawer-open' : 'right-drawer-closed'" temporary fixed :right="right" v-model="rightDrawer">
         <Drawer></Drawer>
       </v-navigation-drawer>
     </v-app>
@@ -48,6 +48,11 @@ export default {
     rightDrawer: false,
     title: 'Editor'
   }),
+  computed: {
+    appTheme () {
+      return this.$store.state.editor.settings.appTheme
+    }
+  },
   mounted () {
     this.$store.dispatch('ensureUserSettings')
       .then(() => {
@@ -56,6 +61,12 @@ export default {
       .then(() => {
         return this.$store.dispatch('readNotes')
       })
+  },
+  watch: {
+    appTheme (value) {
+      console.info(`color change: ${value}`)
+      this.$vuetify.theme.primary = this.appTheme
+    }
   },
   components: {
     NotesTitle,
@@ -71,9 +82,9 @@ export default {
 </style>
 
 <style lang="css" scoped>
-.drawer {
-  /* background-color: #263238; */
-}
+/* .left-drawer {
+  background-color: #212121;
+} */
 .right-drawer-open {
   width: 400px !important;
 }

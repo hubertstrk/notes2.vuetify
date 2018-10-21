@@ -32,10 +32,10 @@ export default {
   }),
   computed: {
     activeNote () {
-      return this.$store.state.editor.active
+      return this.$store.getters.activeNote
     },
     activeNoteTitle () {
-      return this.$store.state.editor.active ? this.$store.state.editor.active.headings[0].text : ''
+      return this.activeNote ? this.activeNote.headings[0].text : ''
     }
   },
   methods: {

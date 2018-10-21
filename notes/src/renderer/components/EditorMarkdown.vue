@@ -1,53 +1,61 @@
 <template>
   <div class="editor-text">
-    <div class="editor-toolbar" id="editor-toolbar">
+    <div class="toolbar header" id="editor-toolbar">
       <div>
         <v-btn small flat icon @click="zoom(1)"><v-icon>zoom_in</v-icon></v-btn>
         <v-btn small flat icon @click="zoom(-1)"><v-icon>zoom_out</v-icon></v-btn>
       </div>
       <div>
-        <v-btn small flat icon @click="insert('****', {line: 0, column: 2})"><v-icon>format_bold</v-icon></v-btn>
-        <v-btn small flat icon @click="insert('**', {line: 0, column: 1})"><v-icon>format_italic</v-icon></v-btn>
-        <v-btn small flat icon @click="insert('~~~~', {line: 0, column: 2})"><v-icon>format_strikethrough</v-icon></v-btn>
-        <v-btn small flat icon @click="insert('[Google](www.google.com)', {line: 0, column: 0})"><v-icon>link</v-icon></v-btn>
-        <v-btn small flat icon @click="insert('```js\n\n```', {line: 1, column: 10})"><v-icon>code</v-icon></v-btn>
-        <v-btn small flat icon @click="insert('Tables | Are | Cool\n--- | --- | ---\n*Still* | `renders` | **nicely**\n1 | 2 | 3\n', {line: 0, column: 0})"><v-icon>grid_on</v-icon></v-btn>
+        <v-btn small flat icon @click="insert('****', {diffRow: 0, diffColumn: 2})"><v-icon>format_bold</v-icon></v-btn>
+        <v-btn small flat icon @click="insert('**', {diffRow: 0, diffColumn: 1})"><v-icon>format_italic</v-icon></v-btn>
+        <v-btn small flat icon @click="insert('~~~~', {diffRow: 0, diffColumn: 2})"><v-icon>format_strikethrough</v-icon></v-btn>
+        <v-btn small flat icon @click="insert('[Google](www.google.com)', {diffRow: 0, diffColumn: 0})"><v-icon>link</v-icon></v-btn>
+        <v-btn small flat icon @click="insert('```js\n\n```', {diffRow: 1, diffColumn: 10})"><v-icon>code</v-icon></v-btn>
+        <v-btn small flat icon @click="insert('Tables | Are | Cool\n--- | --- | ---\n*Still* | `renders` | **nicely**\n1 | 2 | 3\n', {diffRow: 0, diffColumn: 0})"><v-icon>grid_on</v-icon></v-btn>
       </div>
     </div>
     <div :style="scrollable">
       <Editor 
         id="aceeditor" @init="editorInit" 
-        :value="active ? active.text : ''" 
+        :value="activeNote ? activeNote.text : ''" 
         :theme="theme ? theme : 'chrome'"
-        @input="storeNote" lang="markdown" 
+        @input="storeNote" lang="markdown"
         width="100%" height="100%">
       </Editor>
+    </div>
+    <div class="toolbar footer" id="editor-footer">
+      <div></div>
+      <div class="caption">Ln {{currentRow}}, Col {{currentColumn}}</div>
     </div>
   </div>
 </template>
 
 <script>
-import {mapState} from 'vuex'
-
 import _ from 'lodash'
 import Editor from 'vue2-ace-editor'
 import {SizeMixin} from './SizeMixin.js'
 
+import { mapState } from 'vuex'
 export default {
   name: 'editor-markdown',
   mixins: [SizeMixin],
   props: ['elements'],
   data: () => ({
-    editor: null
+    editor: null,
+    currentRow: 1,
+    currentColumn: 1,
+    status: ''
   }),
   computed: {
-    ...mapState({
-      active: state => state.editor.active,
-      theme: state => state.editor.settings.editorTheme,
-      editorFontSize: state => state.editor.settings.editorFontSize,
-      displayFoldWidgets: state => state.editor.settings.displayFoldWidgets,
-      highlightActiveLine: state => state.editor.settings.highlightActiveLine
-    })
+    ...mapState('editor', {
+      theme: state => state.settings.editorTheme,
+      editorFontSize: state => state.settings.editorFontSize,
+      displayFoldWidgets: state => state.settings.displayFoldWidgets,
+      highlightActiveLine: state => state.settings.highlightActiveLine
+    }),
+    activeNote () {
+      return this.$store.getters.activeNote
+    }
   },
   methods: {
     storeNote (text) {
@@ -56,43 +64,50 @@ export default {
     },
     editorInit (editor) {
       this.editor = editor
-      editor.setWrapBehavioursEnabled(true)
-      editor.setShowInvisibles(false)
-      editor.setShowFoldWidgets(this.displayFoldWidgets)
-      editor.setShowPrintMargin(false)
-      editor.setFontSize(this.editorFontSize)
-      editor.setHighlightGutterLine(false)
-      editor.getSession().setUseWrapMode(true)
-      editor.getSession().setUseSoftTabs(true)
-      editor.setHighlightActiveLine(this.highlightActiveLine)
-      editor.setAnimatedScroll()
+      this.editor.setWrapBehavioursEnabled(true)
+      this.editor.setShowInvisibles(false)
+      this.editor.setShowFoldWidgets(this.displayFoldWidgets)
+      this.editor.setShowPrintMargin(false)
+      this.editor.setFontSize(this.editorFontSize)
+      this.editor.setHighlightGutterLine(false)
+      this.editor.getSession().setUseWrapMode(true)
+      this.editor.getSession().setUseSoftTabs(true)
+      this.editor.setHighlightActiveLine(this.highlightActiveLine)
+      this.editor.setAnimatedScroll()
       this.editor.resize()
+
+      this.editor.on('change', () => {
+        this.updateMetadata()
+      })
+      this.editor.selection.on('changeCursor', () => {
+        this.updateMetadata()
+      })
+    },
+    updateMetadata () {
+      const {row, column} = this.editor.getCursorPosition()
+      this.currentRow = row + 1
+      this.currentColumn = column + 1
     },
     updateNote: _.debounce(function (text) {
       this.$store.dispatch('updateNoteText', text)
-    }, 50),
+    }, 100),
     writeNote: _.debounce(function () {
       this.$store.dispatch('writeCurrentNote')
     }, 3000),
     zoom (value) {
       this.$store.dispatch('setEditorFontSize', this.editorFontSize + value)
     },
-    insert (value, {line, column}) {
+    insert (value, {diffRow, diffColumn}) {
       this.editor.insert(value)
-      const position = this.editor.getCursorPosition()
-      this.editor.moveCursorTo(position.row - line, position.column - column)
+      const {row, column} = this.editor.getCursorPosition()
+      this.editor.moveCursorTo(row - diffRow, column - diffColumn)
       this.editor.focus()
     }
   },
   watch: {
     editorFontSize (value) {
-      this.editorInit(this.editor)
-    },
-    displayFoldWidgets () {
-      this.editorInit(this.editor)
-    },
-    highlightActiveLine () {
-      this.editorInit(this.editor)
+      this.editor.setFontSize(this.editorFontSize)
+      this.editor.resize()
     }
   },
   components: {
@@ -106,12 +121,18 @@ export default {
   min-width: 200px;
   flex: 2;
   flex-direction: column;
-  background-color: white;
 }
-.editor-toolbar {
-  height: 40px;
+
+.toolbar {
   display: flex;
   align-items: center;
+  padding: 0 10px;
   justify-content: space-between;
+}
+.header {
+  height: 40px;
+}
+.footer {
+  height: 20px;
 }
 </style>

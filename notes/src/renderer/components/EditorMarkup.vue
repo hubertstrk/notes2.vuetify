@@ -14,8 +14,14 @@ export default {
   mixins: [SizeMixin],
   computed: {
     compiledMarkdown () {
-      if (!this.$store.state.editor.active) return ''
-      return this.$store.state.editor.active.markdown
+      if (!this.active) return ''
+      return this.active.markdown
+    },
+    active () {
+      return this.$store.getters.activeNote
+    },
+    codeTheme () {
+      return this.$store.state.editor.settings.codeTheme
     }
   },
   methods: {
@@ -26,7 +32,7 @@ export default {
       // add class to all code elements
       const codeElements = container.querySelectorAll('pre code')
       codeElements.forEach((codeEl) => {
-        codeEl.classList.add(`${this.$store.state.editor.settings.codeTheme}-hljs`)
+        codeEl.classList.add(`${this.codeTheme}-hljs`)
       })
       const iFrame = document.querySelector('#iframe')
       iFrame.contentDocument.body.innerHTML = container.innerHTML
@@ -55,8 +61,8 @@ export default {
   },
   mounted () {
     this.createIFrame()
-    if (this.$store.state.editor.active) {
-      this.addMarkup(this.$store.state.editor.active.markdown)
+    if (this.active) {
+      this.addMarkup(this.active.markdown)
     }
   }
 }

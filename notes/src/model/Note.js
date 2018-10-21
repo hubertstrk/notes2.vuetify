@@ -7,10 +7,14 @@ class Note {
     this.text = String
     this.markdown = String
     this.headings = Array
+    this.starred = false
   }
   setText (text) {
     this.text = text
     this.compileMarkdown()
+  }
+  setStarred (starred) {
+    this.starred = starred
   }
 
   compileMarkdown () {

@@ -8,8 +8,8 @@
       <v-select v-model="selectedEditorTheme" :items="editorThemeItems" label="Editor Theme" solo></v-select>
     </div>
     
-    <v-switch label="Mark Current Line" v-model="highlightActiveLine"></v-switch>
-    <v-switch label="Display fold widgets" v-model="displayFoldWidgets"></v-switch>
+    <v-switch color="primary" label="Mark Current Line" v-model="highlightActiveLine"></v-switch>
+    <v-switch color="primary" label="Display fold widgets" v-model="displayFoldWidgets"></v-switch>
 
     <div class="display-1">Code</div>
     <div class="subheading">Theme</div>
@@ -34,11 +34,11 @@ export default {
     }
   },
   computed: {
-    ...mapState({
-      codeTheme: state => state.editor.settings.codeTheme,
-      editorTheme: state => state.editor.settings.editorTheme,
-      foldWidgets: state => state.editor.settings.displayFoldWidgets,
-      highlightLine: state => state.editor.settings.highlightActiveLine
+    ...mapState('editor', {
+      codeTheme: state => state.settings.codeTheme,
+      editorTheme: state => state.settings.editorTheme,
+      foldWidgets: state => state.settings.displayFoldWidgets,
+      highlightLine: state => state.settings.highlightActiveLine
     }),
     codeThemeItems () {
       return CodeThemes.map(x => x.label)
