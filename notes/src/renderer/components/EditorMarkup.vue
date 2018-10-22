@@ -1,5 +1,10 @@
 <template>
-  <div :style="scrollable" id="iframe-container" class="editor-markup"></div>
+  <div class="editor-markup">
+    <div id="markup-toolbar" class="markup-toolbar">
+      <v-btn small flat icon @click="print"><v-icon>print</v-icon></v-btn>
+    </div>
+    <div :style="scrollable" id="iframe-container"></div>
+  </div>
 </template>
 
 <script>
@@ -25,6 +30,9 @@ export default {
     }
   },
   methods: {
+    print () {
+      document.querySelector('#iframe').contentWindow.print()
+    },
     addMarkup (markup) {
       // create markdown container
       const container = document.createElement('div')
@@ -72,6 +80,18 @@ export default {
 .editor-markup {
   min-width: 200px; 
   flex: 2;
+  flex-direction: column;
+  overflow: hidden !important;
+}
+.markup-toolbar {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 10px 0 0;
+}
+
+#iframe-container {
   overflow: hidden !important;
 }
 </style>
