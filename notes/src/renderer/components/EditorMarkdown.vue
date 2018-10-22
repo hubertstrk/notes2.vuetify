@@ -74,7 +74,7 @@ export default {
       this.editor.setWrapBehavioursEnabled(true)
       this.editor.setShowInvisibles(false)
       this.editor.setShowFoldWidgets(this.displayFoldWidgets)
-      this.editor.setShowPrintMargin(false)
+      this.editor.setShowPrintMargin(true)
       this.editor.setFontSize(this.editorFontSize)
       this.editor.setHighlightGutterLine(false)
       this.editor.getSession().setUseWrapMode(true)
@@ -82,6 +82,8 @@ export default {
       this.editor.setHighlightActiveLine(this.highlightActiveLine)
       this.editor.setAnimatedScroll()
       this.editor.resize()
+      this.editor.setHighlightSelectedWord(false)
+      this.editor.showGutter(false)
 
       this.editor.on('change', () => {
         this.updateMetadata()
@@ -119,6 +121,9 @@ export default {
       this.editor.setFontSize(this.editorFontSize)
       this.editor.resize()
     }
+  },
+  destroyed () {
+    this.editor.destroy()
   },
   components: {
     Editor

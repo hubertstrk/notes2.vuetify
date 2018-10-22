@@ -1,6 +1,6 @@
 <template>
   <div class="synchronization-component">
-    <div class="display-3">Create Project</div>
+    <div class="display-2">Create Project</div>
     <div class="subheading">To make your projects available on all devices you can choose a folder which is synchronized with a cloud storage such as 
       the Google Drive or Dropbox. If you want to keep your data locally choose a folder on your computer which is not synchronized with a cloud storage.
     </div>

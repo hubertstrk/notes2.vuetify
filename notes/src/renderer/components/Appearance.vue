@@ -1,6 +1,6 @@
 <template>
   <div class="theme-component">
-    <div class="display-3">Appearance</div>
+    <div class="display-2">Appearance</div>
 
     <div class="display-1">Editor</div>
     <div class="subheading">Theme</div>

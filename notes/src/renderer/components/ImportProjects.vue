@@ -1,6 +1,6 @@
 <template>
   <div class="import-component">
-    <div class="display-3">Import Projects</div>
+    <div class="display-2">Import Projects</div>
     <div class="subheading">Import all projects from the selected location. 
       This might be the case if you want to set up your notes for the first time on a new device. </div>
     <v-btn @click="openFolder" color="primary">Select Location</v-btn>
