@@ -2,8 +2,8 @@
   <div class="drawer">
     <v-list two-line subheader>
       <v-subheader>Settings</v-subheader>
-      <DrawerItem route="/new-project" icon="cloud_done" title="Create Projects" subtitle="Create new projects to organize your notes"/>
-      <DrawerItem route="/import-projects" icon="cloud_download" title="Import Projects" subtitle="Import existing projects"/>
+      <DrawerItem route="/new-project" icon="cloud_upload" title="Create Projects" subtitle="Create new projects to organize your notes"/>
+      <DrawerItem route="/import-projects" icon="sync" title="Import Projects" subtitle="Import existing projects"/>
       <DrawerItem route="/appearance" icon="color_lens" title="Appearance" subtitle="Change your theme settings"/>
     </v-list>
   </div>

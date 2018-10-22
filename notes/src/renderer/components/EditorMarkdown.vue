@@ -13,7 +13,7 @@
         <v-btn small flat icon @click="insert('~~~~', {diffRow: 0, diffColumn: 2})"><v-icon>format_strikethrough</v-icon></v-btn>
         <v-btn small flat icon @click="insert('[Google](www.google.com)', {diffRow: 0, diffColumn: 0})"><v-icon>link</v-icon></v-btn>
         <v-btn small flat icon @click="insert('```js\n\n```', {diffRow: 1, diffColumn: 10})"><v-icon>code</v-icon></v-btn>
-        <v-btn small flat icon @click="insert('Tables | Are | Cool\n--- | --- | ---\n*Still* | `renders` | **nicely**\n1 | 2 | 3\n', {diffRow: 0, diffColumn: 0})"><v-icon>grid_on</v-icon></v-btn>
+        <v-btn small flat icon @click="insert('Tables | Are | Cool\n--- | --- | ---\n*Still* | `renders` | **nicely**\n1 | 2 | 3\n', {diffRow: 0, diffColumn: 0})"><v-icon>border_all</v-icon></v-btn>
       </div>
     </div>
     <div :style="scrollable">
@@ -74,7 +74,7 @@ export default {
       this.editor.setWrapBehavioursEnabled(true)
       this.editor.setShowInvisibles(false)
       this.editor.setShowFoldWidgets(this.displayFoldWidgets)
-      this.editor.setShowPrintMargin(true)
+      this.editor.setShowPrintMargin(false)
       this.editor.setFontSize(this.editorFontSize)
       this.editor.setHighlightGutterLine(false)
       this.editor.getSession().setUseWrapMode(true)
@@ -82,8 +82,8 @@ export default {
       this.editor.setHighlightActiveLine(this.highlightActiveLine)
       this.editor.setAnimatedScroll()
       this.editor.resize()
-      this.editor.setHighlightSelectedWord(false)
-      this.editor.showGutter(false)
+
+      // document.getElementById('aceeditor').style.fontFamily = 'Mono'
 
       this.editor.on('change', () => {
         this.updateMetadata()
@@ -142,6 +142,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0 10px 0 0;
 }
 .header {
   height: 40px;
