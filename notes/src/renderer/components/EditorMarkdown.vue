@@ -4,11 +4,10 @@
       <div>
         <v-btn v-if="isActiveStarred" small flat icon @click="toggleStarred"><v-icon color="yellow darken-2">star</v-icon></v-btn>
         <v-btn v-else small flat icon @click="toggleStarred"><v-icon color="grey lighten-1">star</v-icon></v-btn>
-
-        <v-btn small flat icon @click="zoom(1)"><v-icon>zoom_in</v-icon></v-btn>
-        <v-btn small flat icon @click="zoom(-1)"><v-icon>zoom_out</v-icon></v-btn>
       </div>
       <div>
+        <v-btn small flat icon @click="zoom(1)"><v-icon>zoom_in</v-icon></v-btn>
+        <v-btn small flat icon @click="zoom(-1)"><v-icon>zoom_out</v-icon></v-btn>
         <v-btn small flat icon @click="insert('****', {diffRow: 0, diffColumn: 2})"><v-icon>format_bold</v-icon></v-btn>
         <v-btn small flat icon @click="insert('**', {diffRow: 0, diffColumn: 1})"><v-icon>format_italic</v-icon></v-btn>
         <v-btn small flat icon @click="insert('~~~~', {diffRow: 0, diffColumn: 2})"><v-icon>format_strikethrough</v-icon></v-btn>
@@ -137,7 +136,6 @@ export default {
 .toolbar {
   display: flex;
   align-items: center;
-  padding: 0 10px;
   justify-content: space-between;
 }
 .header {

@@ -8,10 +8,11 @@ import router from './router'
 import store from './store'
 
 import './side-effects'
+import colors from 'vuetify/es5/util/colors'
 
 Vue.use(Vuetify, {
   theme: {
-    primary: '#212121'
+    primary: colors.indigo
   }
 })
 

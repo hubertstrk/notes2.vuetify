@@ -7,7 +7,7 @@
         </v-list-tile-content>
       </v-list-tile>
       <v-list-tile @click="activateNote(note.id)" class="note" v-for="note in projectNote.notes" :key="note.id">
-        <v-list-tile-title v-text="note.title"></v-list-tile-title>
+        <v-list-tile-title v-text="note.title" :class="{'primary--text': activeNote && note.id === activeNote.id}"></v-list-tile-title>
       </v-list-tile>
     </v-list-group>
   </v-list>
@@ -17,8 +17,12 @@
 import _ from 'lodash'
 
 export default {
+  data () {
+    return {
+    }
+  },
   computed: {
-    active () {
+    activeNote () {
       return this.$store.getters.activeNote
     },
     projectNotes () {
@@ -38,7 +42,7 @@ export default {
       return _.sortBy(projectNotes, ['project.name'])
     },
     activeNoteProject () {
-      return this.active ? this.active.project.fullPath : ''
+      return this.activeNote ? this.activeNote.project.fullPath : ''
     }
   },
   methods: {

@@ -2,6 +2,7 @@ import Project from '@model/Location'
 import Note from '@model/Note'
 import fileApi from '@api/file'
 import settingsManager from '@api/settings-manager'
+import {setCodeTheme} from '@js/marked-config'
 
 const state = {
   settings: {
@@ -114,7 +115,10 @@ const actions = {
   },
   readUserSettings ({commit}) {
     return settingsManager.readUserSettings()
-      .then(settings => commit('setUserSettings', settings))
+      .then((settings) => {
+        commit('setUserSettings', settings)
+        setCodeTheme(settings.codeTheme)
+      })
   },
   writeUserSettings ({state}) {
     return settingsManager.writeUserSettings(state.settings)
@@ -166,6 +170,7 @@ const actions = {
   },
   setCodeTheme ({commit, dispatch}, theme) {
     commit('setCodeTheme', theme)
+    setCodeTheme(theme)
     dispatch('writeUserSettings')
   },
   setEditorFontSize ({commit, dispatch}, fontSize) {

@@ -20,16 +20,21 @@ renderer.heading = function (text, level) {
     </h${level}>`
 }
 
-marked.setOptions({
-  highlight: function (code, lang) {
-    hljs.configure({
-      classPrefix: 'solarized-dark-hljs-'
-    })
-    if (!lang) {
-      return hljs.highlightAuto(code).value
+export const setCodeTheme = (codeStyle) => {
+  marked.setOptions({
+    highlight: function (code, lang) {
+      hljs.configure({
+        classPrefix: `${codeStyle}-hljs-`
+      })
+      if (!lang) {
+        return hljs.highlightAuto(code).value
+      }
+      return hljs.highlight(lang, code).value
     }
-    return hljs.highlight(lang, code).value
-  },
+  })
+}
+
+marked.setOptions({
   renderer,
   pedantic: false,
   gfm: true,

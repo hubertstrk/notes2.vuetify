@@ -1,13 +1,11 @@
 <template>
   <div id="app" >
     <v-app>
-      
       <v-navigation-drawer dark class="left-drawer" fixed :clipped="clipped" v-model="drawer" app>
         <NotesToolbar />
         <NotesStarred />
         <NotesList />
       </v-navigation-drawer>
-
       <v-toolbar id="app-tool-bar" fixed app :clipped-left="clipped">
         <v-toolbar-side-icon @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
         <v-btn icon @click.native.stop="clipped = !clipped">

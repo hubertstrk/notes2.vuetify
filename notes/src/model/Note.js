@@ -1,4 +1,4 @@
-import {marked, clearHeadings, getHeadings} from '../js/marked-config'
+import {marked, clearHeadings, getHeadings} from '@js/marked-config'
 
 class Note {
   constructor (id, project) {

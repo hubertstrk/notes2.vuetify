@@ -4,14 +4,14 @@
     <v-list-group>
       <v-list-tile slot="activator">
         <v-list-tile-action>
-          <v-icon color="yellow darken-2">star</v-icon>
+          <v-icon color="grey lighten-1">star_outline</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
           <v-list-tile-title>Starred</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
       <v-list-tile @click="activateNote(note.id)" class="note" v-for="note in starred" :key="note.id">
-        <v-list-tile-title v-text="note.headings[0].text"></v-list-tile-title>
+        <v-list-tile-title v-text="note.headings[0].text" :class="{'primary--text': activeNote && note.id === activeNote.id}"></v-list-tile-title>
       </v-list-tile>
     </v-list-group>
     <v-divider></v-divider>
@@ -23,6 +23,9 @@ export default {
   computed: {
     starred () {
       return this.$store.getters.starredNotes
+    },
+    activeNote () {
+      return this.$store.getters.activeNote
     }
   },
   methods: {
@@ -34,6 +37,5 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="css" scoped>
 </style>
