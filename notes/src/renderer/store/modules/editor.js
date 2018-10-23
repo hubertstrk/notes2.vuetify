@@ -91,11 +91,12 @@ const actions = {
     }
     commit('deletNote', activeNote.id)
   },
-  activateNote ({state, commit, getters}, id) {
+  activateNote ({commit, getters, dispatch}, id) {
     if (getters.activeNote) {
       fileApi.writeNote(getters.activeNote)
     }
     commit('activateNote', id)
+    dispatch('writeUserSettings')
   },
   writeCurrentNote ({getters}) {
     return fileApi.writeNote(getters.activeNote)
