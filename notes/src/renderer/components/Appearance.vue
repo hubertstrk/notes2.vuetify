@@ -30,15 +30,14 @@ export default {
   name: 'Appearance',
   data () {
     return {
-      namespace: 'editor.settings'
     }
   },
   computed: {
-    ...mapState({
-      codeTheme: state => state.editor.settings.codeTheme,
-      editorTheme: state => state.editor.settings.editorTheme,
-      foldWidgets: state => state.editor.settings.displayFoldWidgets,
-      highlightLine: state => state.editor.settings.highlightActiveLine
+    ...mapState('editor', {
+      codeTheme: state => state.settings.codeTheme,
+      editorTheme: state => state.settings.editorTheme,
+      foldWidgets: state => state.settings.displayFoldWidgets,
+      highlightLine: state => state.settings.highlightActiveLine
     }),
     codeThemeItems () {
       return CodeThemes.map(x => x.label)
@@ -53,7 +52,7 @@ export default {
       },
       set (label) {
         const theme = CodeThemes.find(x => x.label === label)
-        this.$store.dispatch('setCodeTheme', theme.name)
+        this.$store.dispatch('editor/setCodeTheme', theme.name)
       }
     },
     selectedEditorTheme: {
@@ -63,16 +62,16 @@ export default {
       },
       set (label) {
         const theme = EditorThemes.find(x => x.label === label)
-        this.$store.dispatch('setEditorTheme', theme.name)
+        this.$store.dispatch('editor/setEditorTheme', theme.name)
       }
     },
     displayFoldWidgets: {
       get () { return this.foldWidgets },
-      set (value) { this.$store.dispatch('setDisplayFoldWidgets', value) }
+      set (value) { this.$store.dispatch('editor/setDisplayFoldWidgets', value) }
     },
     highlightActiveLine: {
       get () { return this.highlightLine },
-      set (value) { this.$store.dispatch('setHighlightActiveLine', value) }
+      set (value) { this.$store.dispatch('editor/setHighlightActiveLine', value) }
     }
   }
 }

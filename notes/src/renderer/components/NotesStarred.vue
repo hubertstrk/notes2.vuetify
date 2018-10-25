@@ -22,16 +22,16 @@
 export default {
   computed: {
     starred () {
-      return this.$store.getters.starredNotes
+      return this.$store.getters['editor/starredNotes']
     },
     activeNote () {
-      return this.$store.getters.activeNote
+      return this.$store.getters['editor/activeNote']
     }
   },
   methods: {
     activateNote (id) {
       this.$router.push('/')
-      this.$store.dispatch('activateNote', id)
+      this.$store.dispatch('editor/activateNote', id)
     }
   }
 }

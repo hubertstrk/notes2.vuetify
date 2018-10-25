@@ -23,7 +23,7 @@ export default {
       return this.active.markdown
     },
     active () {
-      return this.$store.getters.activeNote
+      return this.$store.getters['editor/activeNote']
     },
     codeTheme () {
       return this.$store.state.editor.settings.codeTheme

@@ -32,7 +32,7 @@ export default {
   }),
   computed: {
     activeNote () {
-      return this.$store.getters.activeNote
+      return this.$store.getters['editor/activeNote']
     },
     activeNoteTitle () {
       return this.activeNote ? this.activeNote.headings[0].text : ''

@@ -17,10 +17,22 @@ const state = {
     active: null // id
   },
   notes: [],
-  projects: []
+  projects: [],
+  notification: {
+    message: String,
+    severity: String,
+    display: false
+  }
 }
 
 const mutations = {
+  showNotification (state, notification) {
+    Object.assign(state.notification, notification)
+    state.notification.display = true
+  },
+  hideNotification (state) {
+    state.notification.display = false
+  },
   addProject (state, Project) {
     state.projects.push(Project)
   },
@@ -32,7 +44,9 @@ const mutations = {
   },
   updateNoteText (state, text) {
     const index = state.notes.findIndex(x => x.id === state.settings.active)
-    state.notes[index].setText(text)
+    if (index !== -1) {
+      state.notes[index].setText(text)
+    }
   },
   setUserSettings (state, settings) {
     Object.assign(state.settings, settings)
@@ -76,36 +90,68 @@ const mutations = {
 }
 
 const actions = {
-  createNote ({commit}, Project) {
+  notify ({commit}, notification) {
+    commit('showNotification', notification)
+  },
+  createNote ({commit, dispatch}, Project) {
     return fileApi.addNote(Project.fullPath, '# Title').then((id) => {
+      dispatch('notify', {message: 'Note created', severity: 'success'})
       const note = new Note(id, Project)
       note.setText('# Title')
       commit('addNote', note)
       commit('activateNote', note.id)
     })
+      .catch(({message}) => {
+        dispatch('notify', {message, severity: 'error'})
+        console.error(message)
+      })
   },
-  deleteNote ({state, commit, getters}) {
+  deleteNote ({dispatch, commit, getters}) {
     const activeNote = getters.activeNote
     if (activeNote) {
       fileApi.deleteNote(activeNote.project.fullPath, activeNote.id)
+        .then(() => {
+          dispatch('notify', {message: 'Note deleted', severity: 'success'})
+        })
+        .catch(({message}) => {
+          dispatch('notify', {message, severity: 'error'})
+          console.error(message)
+        })
     }
     commit('deletNote', activeNote.id)
   },
   activateNote ({commit, getters, dispatch}, id) {
     if (getters.activeNote) {
       fileApi.writeNote(getters.activeNote)
+        .catch(({message}) => {
+          dispatch('notify', {message, severity: 'error'})
+          console.error(message)
+        })
     }
     commit('activateNote', id)
     dispatch('writeUserSettings')
+      .catch(({message}) => {
+        dispatch('notify', {message, severity: 'error'})
+        console.error(message)
+      })
   },
-  writeCurrentNote ({getters}) {
+  writeCurrentNote ({dispatch, getters}) {
     return fileApi.writeNote(getters.activeNote)
+      .catch(({message}) => {
+        dispatch('notify', {message, severity: 'error'})
+        console.error(message)
+      })
   },
-  addProject ({commit}, {path, name}) {
+  addProject ({commit, dispatch}, {path, name}) {
     const project = new Project(path, name)
     return fileApi.addLocation(project).then(() => {
+      dispatch('notify', {message: 'Project created', severity: 'success'})
       commit('addProject', project)
     })
+      .catch(({message}) => {
+        dispatch('notify', {message, severity: 'error'})
+        console.error(message)
+      })
   },
   updateNoteText ({commit}, text) {
     commit('updateNoteText', text)
@@ -113,21 +159,33 @@ const actions = {
   ensureUserSettings ({dispatch}) {
     return settingsManager.ensureUserSettingsFile()
       .then(dispatch('readUserSettings'))
+      .catch(({message}) => {
+        dispatch('notify', {message, severity: 'error'})
+        console.error(message)
+      })
   },
-  readUserSettings ({commit}) {
+  readUserSettings ({dispatch, commit}) {
     return settingsManager.readUserSettings()
       .then((settings) => {
         commit('setUserSettings', settings)
         setCodeTheme(settings.codeTheme)
       })
+      .catch(({message}) => {
+        dispatch('notify', {message, severity: 'error'})
+        console.error(message)
+      })
   },
-  writeUserSettings ({state}) {
+  writeUserSettings ({dispatch, state}) {
     return settingsManager.writeUserSettings(state.settings)
+      .catch(({message}) => {
+        dispatch('notify', {message, severity: 'error'})
+        console.error(message)
+      })
   },
   readProjects ({state, dispatch}) {
     return dispatch('readProjectsByPaths', state.settings.paths)
   },
-  readProjectsByPaths ({commit}, paths) {
+  readProjectsByPaths ({dispatch, commit}, paths) {
     const projects = paths.map(path => fileApi.readDirectory(path))
     return Promise.all(projects)
       .then((projects) => {
@@ -144,18 +202,26 @@ const actions = {
       return dispatch('readNotesByProject', project)
     })
   },
-  readNotesByProject ({commit}, project) {
+  readNotesByProject ({dispatch, commit}, project) {
     return fileApi.readDirectory(project.fullPath).then((filePaths) => {
-      filePaths.map((filePath) => {
+      return filePaths.map((filePath) => {
         return fileApi.readFile(filePath.path, filePath.name).then((text) => {
           const note = new Note(filePath.name, project)
           note.setText(text)
           commit('addNote', note)
         })
+          .catch(({message}) => {
+            dispatch('notify', {message, severity: 'error'})
+            console.error(message)
+          })
       })
     })
+      .catch(({message}) => {
+        dispatch('notify', {message, severity: 'error'})
+        console.error(message)
+      })
   },
-  importProjects ({commit, dispatch}, path) {
+  importProjects ({state, commit, dispatch}, path) {
     commit('addPathToSettings', path)
     return dispatch('writeUserSettings')
       .then(() => {
@@ -163,6 +229,9 @@ const actions = {
       })
       .then(() => {
         return dispatch('readNotes')
+      })
+      .then(() => {
+        dispatch('notify', {message: `${state.projects.length} projects imported`, severity: 'success'})
       })
   },
   setEditorTheme ({commit, dispatch}, theme) {

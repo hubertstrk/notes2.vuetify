@@ -36,9 +36,10 @@ export default {
     importProjects () {
       if (!this.selectedPath) return
       this.$router.push('/')
-      this.$store.dispatch('importProjects', this.selectedPath)
-        .catch((error) => {
-          console.error(error.message)
+      this.$store.dispatch('editor/importProjects', this.selectedPath)
+        .catch(({message}) => {
+          console.error(message)
+          this.$store.dispatch('editor/notify', {message, severity: 'error'})
         })
     }
   },

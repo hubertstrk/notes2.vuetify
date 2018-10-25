@@ -40,7 +40,7 @@
       createNote () {
         if (!this.selectedProject.fullPath) return
         this.$router.push('/')
-        this.$store.dispatch('createNote', this.selectedProject)
+        this.$store.dispatch('editor/createNote', this.selectedProject)
       }
     },
     computed: {

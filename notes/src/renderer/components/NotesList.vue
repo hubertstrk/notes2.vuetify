@@ -23,7 +23,7 @@ export default {
   },
   computed: {
     activeNote () {
-      return this.$store.getters.activeNote
+      return this.$store.getters['editor/activeNote']
     },
     projectNotes () {
       const formatNote = note => {
@@ -32,7 +32,7 @@ export default {
           title: note.headings[0].text
         }
       }
-      const projectNotes = this.$store.getters.projectNotes.map((projectNote) => {
+      const projectNotes = this.$store.getters['editor/projectNotes'].map((projectNote) => {
         return {
           active: this.activeNoteProject === projectNote.project.fullPath,
           project: projectNote.project,
@@ -48,7 +48,7 @@ export default {
   methods: {
     activateNote (id) {
       this.$router.push('/')
-      this.$store.dispatch('activateNote', id)
+      this.$store.dispatch('editor/activateNote', id)
     }
   }
 }

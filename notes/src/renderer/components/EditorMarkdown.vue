@@ -49,16 +49,16 @@ export default {
     status: ''
   }),
   computed: {
-    ...mapState({
-      starred: state => state.editor.settings.starred,
-      active: state => state.editor.settings.active,
-      theme: state => state.editor.settings.editorTheme,
-      editorFontSize: state => state.editor.settings.editorFontSize,
-      displayFoldWidgets: state => state.editor.settings.displayFoldWidgets,
-      highlightActiveLine: state => state.editor.settings.highlightActiveLine
+    ...mapState('editor', {
+      starred: state => state.settings.starred,
+      active: state => state.settings.active,
+      theme: state => state.settings.editorTheme,
+      editorFontSize: state => state.settings.editorFontSize,
+      displayFoldWidgets: state => state.settings.displayFoldWidgets,
+      highlightActiveLine: state => state.settings.highlightActiveLine
     }),
     activeNote () {
-      return this.$store.getters.activeNote
+      return this.$store.getters['editor/activeNote']
     },
     isActiveStarred () {
       return this.starred ? this.starred.includes(this.active) : false
@@ -98,13 +98,13 @@ export default {
       this.currentColumn = column + 1
     },
     updateNote: _.debounce(function (text) {
-      this.$store.dispatch('updateNoteText', text)
+      this.$store.dispatch('editor/updateNoteText', text)
     }, 100),
     writeNote: _.debounce(function () {
-      this.$store.dispatch('writeCurrentNote')
+      this.$store.dispatch('editor/writeCurrentNote')
     }, 3000),
     zoom (value) {
-      this.$store.dispatch('setEditorFontSize', this.editorFontSize + value)
+      this.$store.dispatch('editor/setEditorFontSize', this.editorFontSize + value)
     },
     insert (value, {diffRow, diffColumn}) {
       this.editor.insert(value)
@@ -113,7 +113,7 @@ export default {
       this.editor.focus()
     },
     toggleStarred () {
-      this.$store.dispatch('toggleStarred', this.activeNote.id)
+      this.$store.dispatch('editor/toggleStarred', this.activeNote.id)
     }
   },
   watch: {
