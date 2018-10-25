@@ -1,5 +1,5 @@
 <template>
-  <div class="theme-component">
+  <div class="theme-component" :style="scrollable">
     <div class="display-2">Appearance</div>
 
     <div class="display-1">Editor</div>
@@ -22,14 +22,17 @@
 
 <script>
 import {mapState} from 'vuex'
+import {SizeMixin} from './SizeMixin.js'
 
 import CodeThemes from '@js/code-themes'
 import EditorThemes from '@js/editor-themes'
 
 export default {
   name: 'Appearance',
+  mixins: [SizeMixin],
   data () {
     return {
+      elements: ['app-tool-bar']
     }
   },
   computed: {
@@ -79,6 +82,7 @@ export default {
 
 <style lang="css" scoped>
 .theme-component > * {
+  padding-right: 20px;
   margin-bottom: 20px;
 }
 </style>

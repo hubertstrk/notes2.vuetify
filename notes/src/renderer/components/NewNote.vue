@@ -1,5 +1,5 @@
 <template>
-  <div class="note-component">
+  <div class="note-component" :style="scrollable">
     <div class="display-2">New Note</div>
     <div class="subheading">To create a new note you need to select a project.</div>
     <div>
@@ -24,33 +24,37 @@
 </template>
 
 <script>
-  export default {
-    name: 'NewNote',
-    props: {
-    },
-    data () {
-      return {
-        selectedProject: {fullPath: ''}
-      }
-    },
-    methods: {
-      onSelect (location) {
-        this.selectedProject = location
-      },
-      createNote () {
-        if (!this.selectedProject.fullPath) return
-        this.$router.push('/')
-        this.$store.dispatch('editor/createNote', this.selectedProject)
-      }
-    },
-    computed: {
-      projects () {
-        return this.$store.state.editor.projects
-      }
-    },
-    mounted () {
+import {SizeMixin} from './SizeMixin.js'
+
+export default {
+  name: 'NewNote',
+  mixins: [SizeMixin],
+  props: {
+  },
+  data () {
+    return {
+      elements: ['app-tool-bar'],
+      selectedProject: {fullPath: ''}
     }
+  },
+  methods: {
+    onSelect (location) {
+      this.selectedProject = location
+    },
+    createNote () {
+      if (!this.selectedProject.fullPath) return
+      this.$router.push('/')
+      this.$store.dispatch('editor/createNote', this.selectedProject)
+    }
+  },
+  computed: {
+    projects () {
+      return this.$store.state.editor.projects
+    }
+  },
+  mounted () {
   }
+}
 </script>
 
 <style lang="css" scoped>
