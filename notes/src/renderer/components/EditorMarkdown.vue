@@ -6,7 +6,7 @@
         <v-btn v-else small flat icon @click="toggleStarred"><v-icon color="grey lighten-1">star</v-icon></v-btn>
       </div>
       <div>
-        <!-- <v-btn small flat icon @click="sendNotify()"><v-icon>zoom_in</v-icon></v-btn> -->
+        <v-btn small flat icon @click="sendNotify()"><v-icon>zoom_in</v-icon></v-btn>
         <v-btn small flat icon @click="zoom(1)"><v-icon>zoom_in</v-icon></v-btn>
         <v-btn small flat icon @click="zoom(-1)"><v-icon>zoom_out</v-icon></v-btn>
         <v-btn small flat icon @click="insert('****', {diffRow: 0, diffColumn: 2})"><v-icon>format_bold</v-icon></v-btn>
@@ -76,10 +76,10 @@ export default {
       const severity = ['error', 'info', 'success', 'warning']
       const random = Math.floor(Math.random() * Math.floor(4))
 
-      if (severity[random] === 'error') this.error({text: `This is a message with some content ${Math.random()}`})
-      if (severity[random] === 'info') this.info({text: `This is a message with some content ${Math.random()}`})
-      if (severity[random] === 'success') this.success({text: `This is a message with some content ${Math.random()}`})
-      if (severity[random] === 'warning') this.warning({text: `This is a message with some content ${Math.random()}`})
+      if (severity[random] === 'error') this.error({text: `This is a message ${Math.random()}`})
+      if (severity[random] === 'info') this.info({text: `This is a message ${Math.random()}`})
+      if (severity[random] === 'success') this.success({text: `This is a message ${Math.random()}`})
+      if (severity[random] === 'warning') this.warning({text: `This is a message ${Math.random()}`})
     },
     storeNote (text) {
       this.updateNote(text)

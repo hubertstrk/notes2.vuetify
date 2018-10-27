@@ -21,6 +21,7 @@ import _ from 'lodash'
 export default {
   data () {
     return {
+      activeBuffer: ''
     }
   },
   computed: {
@@ -44,7 +45,13 @@ export default {
       return _.sortBy(projectNotes, ['project.name'])
     },
     activeNoteProject () {
-      return this.activeNote ? this.activeNote.project.fullPath : ''
+      if (this.activeNote) {
+        const activeBuffer = this.activeNote.project.fullPath
+        this.activeBuffer = activeBuffer
+        return activeBuffer
+      } else {
+        return this.activeBuffer
+      }
     }
   },
   methods: {
@@ -58,7 +65,7 @@ export default {
 
 <style lang="css" scoped>
 .list-enter-active, .list-leave-active {
-  transition: all 1s;
+  transition: all .6s;
 }
 .list-enter, .list-leave-to {
   opacity: 0;

@@ -3,7 +3,7 @@
     <transition-group name="list" tag="div">
       <div class="item" v-for="{id, text, severity, icon} in all" :key="id" :style="itemStyle(severity)">
         <v-icon class="severity-icon" :color="iconColor(severity)">{{icon}}</v-icon>
-        <div class="text caption">{{text}}</div>
+        <div class="text body-1">{{text}}</div>
         <v-btn class="remove-icon" icon small @click="remove(id)">
           <v-icon color="#455A64" small>clear</v-icon>
         </v-btn>
@@ -73,7 +73,6 @@ export default {
   padding: 6px;
   margin-bottom: 8px;
   border-radius: 3px;
-  background-color: white;
 }
 
 .text {
@@ -91,7 +90,8 @@ export default {
 }
 .list-enter, .list-leave-to {
   opacity: 0;
-  transform: translatex(230px);
+  transform: translateX(200px);
+  /* transform: scale(0, 0); */
 }
 </style>
 
