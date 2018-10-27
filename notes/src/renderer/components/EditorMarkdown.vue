@@ -6,6 +6,7 @@
         <v-btn v-else small flat icon @click="toggleStarred"><v-icon color="grey lighten-1">star</v-icon></v-btn>
       </div>
       <div>
+        <v-btn small flat icon @click="sendNotify()"><v-icon>zoom_in</v-icon></v-btn>
         <v-btn small flat icon @click="zoom(1)"><v-icon>zoom_in</v-icon></v-btn>
         <v-btn small flat icon @click="zoom(-1)"><v-icon>zoom_out</v-icon></v-btn>
         <v-btn small flat icon @click="insert('****', {diffRow: 0, diffColumn: 2})"><v-icon>format_bold</v-icon></v-btn>
@@ -37,7 +38,7 @@ import _ from 'lodash'
 import Editor from 'vue2-ace-editor'
 import {SizeMixin} from './SizeMixin.js'
 
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'editor-markdown',
   mixins: [SizeMixin],
@@ -65,6 +66,21 @@ export default {
     }
   },
   methods: {
+    ...mapActions('notifications', [
+      'error',
+      'success',
+      'info',
+      'warning'
+    ]),
+    sendNotify () {
+      const severity = ['error', 'info', 'success', 'warning']
+      const random = Math.floor(Math.random() * Math.floor(4))
+
+      if (severity[random] === 'error') this.error({text: 'Title', subtext: 'This is a message with some content'})
+      if (severity[random] === 'info') this.info({text: 'Title', subtext: 'This is a message with some content'})
+      if (severity[random] === 'success') this.success({text: 'Title', subtext: 'This is a message with some content'})
+      if (severity[random] === 'warning') this.warning({text: 'Title', subtext: 'This is a message with some content'})
+    },
     storeNote (text) {
       this.updateNote(text)
       this.writeNote()

@@ -1,5 +1,5 @@
 <template>
-  <div class="theme-component" :style="scrollable">
+  <div class="appearance-component" :style="scrollable">
     <div class="display-2">Appearance</div>
 
     <div class="display-1">Editor</div>
@@ -81,7 +81,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.theme-component > * {
+.appearance-component > * {
   padding-right: 20px;
   margin-bottom: 20px;
 }

@@ -6,9 +6,11 @@
           <v-list-tile-title>{{projectNote.project.name}}</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
-      <v-list-tile @click="activateNote(note.id)" class="note" v-for="note in projectNote.notes" :key="note.id">
-        <v-list-tile-title v-text="note.title" :class="{'primary--text': activeNote && note.id === activeNote.id}"></v-list-tile-title>
-      </v-list-tile>
+      <transition-group name="list" tag="div">
+        <v-list-tile @click="activateNote(note.id)" class="note" v-for="note in projectNote.notes" :key="note.id">
+          <v-list-tile-title v-text="note.title" :class="{'primary--text': activeNote && note.id === activeNote.id}"></v-list-tile-title>
+        </v-list-tile>
+        </transition-group>
     </v-list-group>
   </v-list>
 </template>
@@ -55,4 +57,11 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.list-enter-active, .list-leave-active {
+  transition: all 1s;
+}
+.list-enter, .list-leave-to {
+  opacity: 0;
+  transform: translatex(200px);
+}
 </style>

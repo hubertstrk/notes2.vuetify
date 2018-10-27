@@ -14,25 +14,13 @@ const state = {
     highlightActiveLine: true,
     appTheme: '#424242',
     starred: [],
-    active: null // id
+    active: null
   },
   notes: [],
-  projects: [],
-  notification: {
-    message: String,
-    severity: String,
-    display: false
-  }
+  projects: []
 }
 
 const mutations = {
-  showNotification (state, notification) {
-    Object.assign(state.notification, notification)
-    state.notification.display = true
-  },
-  hideNotification (state) {
-    state.notification.display = false
-  },
   addProject (state, Project) {
     state.projects.push(Project)
   },
@@ -90,19 +78,15 @@ const mutations = {
 }
 
 const actions = {
-  notify ({commit}, notification) {
-    commit('showNotification', notification)
-  },
   createNote ({commit, dispatch}, Project) {
+    dispatch('notifications/success', {text: 'Note created'}, {root: true})
     return fileApi.addNote(Project.fullPath, '# Title').then((id) => {
-      dispatch('notify', {message: 'Note created', severity: 'success'})
       const note = new Note(id, Project)
       note.setText('# Title')
       commit('addNote', note)
       commit('activateNote', note.id)
     })
       .catch(({message}) => {
-        dispatch('notify', {message, severity: 'error'})
         console.error(message)
       })
   },
@@ -111,10 +95,9 @@ const actions = {
     if (activeNote) {
       fileApi.deleteNote(activeNote.project.fullPath, activeNote.id)
         .then(() => {
-          dispatch('notify', {message: 'Note deleted', severity: 'success'})
+          dispatch('notifications/success', {text: 'Note deleted'}, {root: true})
         })
         .catch(({message}) => {
-          dispatch('notify', {message, severity: 'error'})
           console.error(message)
         })
     }
@@ -124,32 +107,28 @@ const actions = {
     if (getters.activeNote) {
       fileApi.writeNote(getters.activeNote)
         .catch(({message}) => {
-          dispatch('notify', {message, severity: 'error'})
           console.error(message)
         })
     }
     commit('activateNote', id)
     dispatch('writeUserSettings')
       .catch(({message}) => {
-        dispatch('notify', {message, severity: 'error'})
         console.error(message)
       })
   },
-  writeCurrentNote ({dispatch, getters}) {
+  writeCurrentNote ({getters}) {
     return fileApi.writeNote(getters.activeNote)
       .catch(({message}) => {
-        dispatch('notify', {message, severity: 'error'})
         console.error(message)
       })
   },
   addProject ({commit, dispatch}, {path, name}) {
     const project = new Project(path, name)
     return fileApi.addLocation(project).then(() => {
-      dispatch('notify', {message: 'Project created', severity: 'success'})
+      dispatch('notifications/success', {text: 'Project created'}, {root: true})
       commit('addProject', project)
     })
       .catch(({message}) => {
-        dispatch('notify', {message, severity: 'error'})
         console.error(message)
       })
   },
@@ -160,32 +139,29 @@ const actions = {
     return settingsManager.ensureUserSettingsFile()
       .then(dispatch('readUserSettings'))
       .catch(({message}) => {
-        dispatch('notify', {message, severity: 'error'})
         console.error(message)
       })
   },
-  readUserSettings ({dispatch, commit}) {
+  readUserSettings ({commit}) {
     return settingsManager.readUserSettings()
       .then((settings) => {
         commit('setUserSettings', settings)
         setCodeTheme(settings.codeTheme)
       })
       .catch(({message}) => {
-        dispatch('notify', {message, severity: 'error'})
         console.error(message)
       })
   },
-  writeUserSettings ({dispatch, state}) {
+  writeUserSettings ({state}) {
     return settingsManager.writeUserSettings(state.settings)
       .catch(({message}) => {
-        dispatch('notify', {message, severity: 'error'})
         console.error(message)
       })
   },
   readProjects ({state, dispatch}) {
     return dispatch('readProjectsByPaths', state.settings.paths)
   },
-  readProjectsByPaths ({dispatch, commit}, paths) {
+  readProjectsByPaths ({commit}, paths) {
     const projects = paths.map(path => fileApi.readDirectory(path))
     return Promise.all(projects)
       .then((projects) => {
@@ -211,7 +187,7 @@ const actions = {
           commit('addNote', note)
         })
           .catch(({message}) => {
-            dispatch('notify', {message, severity: 'error'})
+            dispatch('notification/error', {text: message})
             console.error(message)
           })
       })
@@ -221,7 +197,7 @@ const actions = {
         console.error(message)
       })
   },
-  importProjects ({state, commit, dispatch}, path) {
+  importProjects ({commit, dispatch}, path) {
     commit('addPathToSettings', path)
     return dispatch('writeUserSettings')
       .then(() => {
@@ -231,17 +207,19 @@ const actions = {
         return dispatch('readNotes')
       })
       .then(() => {
-        dispatch('notify', {message: `${state.projects.length} projects imported`, severity: 'success'})
+        dispatch('notifications/success', {text: 'Project imported'}, {root: true})
       })
   },
   setEditorTheme ({commit, dispatch}, theme) {
     commit('setEditorTheme', theme)
     dispatch('writeUserSettings')
+    dispatch('notifications/success', {text: 'Saved'}, {root: true})
   },
   setCodeTheme ({commit, dispatch}, theme) {
     commit('setCodeTheme', theme)
     setCodeTheme(theme)
     dispatch('writeUserSettings')
+    dispatch('notifications/success', {text: 'Saved'}, {root: true})
   },
   setEditorFontSize ({commit, dispatch}, fontSize) {
     commit('setEditorFontSize', fontSize)
@@ -250,10 +228,12 @@ const actions = {
   setDisplayFoldWidgets ({commit, dispatch}, value) {
     commit('setDisplayFoldWidgets', value)
     dispatch('writeUserSettings')
+    dispatch('notifications/success', {text: 'Saved'}, {root: true})
   },
   setHighlightActiveLine ({commit, dispatch}, value) {
     commit('setHighlightActiveLine', value)
     dispatch('writeUserSettings')
+    dispatch('notifications/success', {text: 'Saved'}, {root: true})
   },
   setAppTheme ({commit, dispatch}, color) {
     commit('setAppTheme', color)

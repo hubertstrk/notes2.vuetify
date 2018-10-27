@@ -28,7 +28,8 @@
         <Drawer></Drawer>
       </v-navigation-drawer>
 
-      <Snackbar />
+      <Notifications />
+
     </v-app>
   </div>
 </template>
@@ -38,7 +39,6 @@ import NotesStarred from '@/components/NotesStarred'
 import NotesToolbar from '@/components/NotesToolbar'
 import NotesList from '@/components/NotesList'
 import Drawer from '@/components/Drawer'
-import Snackbar from '@/components/Snackbar'
 
 export default {
   name: 'notes',
@@ -74,8 +74,7 @@ export default {
     NotesToolbar,
     NotesList,
     Drawer,
-    NotesStarred,
-    Snackbar
+    NotesStarred
   }
 }
 </script>

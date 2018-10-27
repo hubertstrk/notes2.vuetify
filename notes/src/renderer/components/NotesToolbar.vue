@@ -41,7 +41,7 @@ export default {
   methods: {
     deleteNote () {
       this.showModal = false
-      this.$store.dispatch('deleteNote')
+      this.$store.dispatch('editor/deleteNote')
     }
   }
 }

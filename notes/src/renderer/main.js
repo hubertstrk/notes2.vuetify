@@ -7,8 +7,12 @@ import App from './App'
 import router from './router'
 import store from './store'
 
+import Notifications from '../lib/notifications'
+
 import './side-effects'
 import colors from 'vuetify/es5/util/colors'
+
+Vue.use(Notifications, { store })
 
 Vue.use(Vuetify, {
   theme: {
