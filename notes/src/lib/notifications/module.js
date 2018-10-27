@@ -18,18 +18,19 @@ const timeout = 3000
 
 const actions = {
   error ({dispatch}, notification) {
-    dispatch('addNotification', {...notification, severity: 'error'})
+    dispatch('addNotification', {...notification, severity: 'error', icon: 'error'})
   },
   warning ({dispatch}, notification) {
-    dispatch('addNotification', {...notification, severity: 'warning'})
+    dispatch('addNotification', {...notification, severity: 'warning', icon: 'warning'})
   },
   info ({dispatch}, notification) {
-    dispatch('addNotification', {...notification, severity: 'info'})
+    dispatch('addNotification', {...notification, severity: 'info', icon: 'info'})
   },
   success ({dispatch}, notification) {
-    dispatch('addNotification', {...notification, severity: 'success'})
+    dispatch('addNotification', {...notification, severity: 'success', icon: 'done'})
   },
   addNotification ({commit}, notification) {
+    if (state.all.find(x => x.text === notification.text)) return
     const id = state.all.length + 1
     commit('add', {...notification, id})
     setTimeout(() => {
