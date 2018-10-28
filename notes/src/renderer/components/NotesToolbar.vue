@@ -13,7 +13,7 @@
   <v-dialog v-model="showModal" width="500">
     <v-card>
       <v-card-title class="headline grey lighten-2" primary-title>Delete Note</v-card-title>
-      <v-card-text>Are you sure you want to delete the current note with title '{{activeNoteTitle}}'?</v-card-text>
+      <v-card-text>Are you sure you want to delete the current note?</v-card-text>
       <v-divider></v-divider>
       <v-card-actions>
         <v-spacer></v-spacer>
