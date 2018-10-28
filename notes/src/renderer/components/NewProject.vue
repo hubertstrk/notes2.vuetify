@@ -36,7 +36,7 @@ export default {
     addProject () {
       if (!this.selectedPath && !this.selectedName) return
       this.$router.push('/')
-      this.$store.dispatch('addProject', {path: this.selectedPath, name: this.selectedName})
+      this.$store.dispatch('editor/addProject', {path: this.selectedPath, name: this.selectedName})
         .catch(({message}) => {
           console.error(message)
           this.$store.dispatch('notify', {message, severity: 'error'})
