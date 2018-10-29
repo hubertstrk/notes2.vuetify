@@ -2,7 +2,8 @@
   <div class="component">
     <transition-group name="list" tag="div">
       <div class="item" v-for="{id, text, severity, icon} in all" :key="id" :style="itemStyle(severity)">
-        <v-icon class="severity-icon" :color="iconColor(severity)">{{icon}}</v-icon>
+        <!-- <v-icon class="severity-icon" :color="iconColor(severity)">{{icon}}</v-icon> -->
+        <v-icon class="severity-icon" color="white">{{icon}}</v-icon>
         <div class="text body-1">{{text}}</div>
         <v-btn class="remove-icon" icon small @click="remove(id)">
           <v-icon color="#455A64" small>clear</v-icon>
@@ -28,13 +29,13 @@ export default {
     itemStyle (severity) {
       switch (severity) {
         case 'error':
-          return 'background-color: #FFEBEE;'
+          return 'background-color: #FF5252;'
         case 'info':
-          return 'background-color: #B3E5FC;'
+          return 'background-color: #1976D2;'
         case 'warning':
-          return 'background-color: #FFFF8D;'
+          return 'background-color: #FFC400;'
         case 'success':
-          return 'background-color: #B9F6CA;'
+          return 'background-color: #388E3C;'
       }
     },
     iconColor (severity) {
@@ -77,6 +78,8 @@ export default {
 
 .text {
   width: 100%;
+  color: white;
+  font-weight: bold;
 }
 
 .item > * {

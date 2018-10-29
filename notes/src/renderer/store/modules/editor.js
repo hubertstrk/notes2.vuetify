@@ -187,13 +187,13 @@ const actions = {
           commit('addNote', note)
         })
           .catch(({message}) => {
-            dispatch('notification/error', {text: message})
+            dispatch('notifications/error', {text: message}, {root: true})
             console.error(message)
           })
       })
     })
       .catch(({message}) => {
-        dispatch('notify', {message, severity: 'error'})
+        dispatch('notifications/notify', {message, severity: 'error'}, {root: true})
         console.error(message)
       })
   },

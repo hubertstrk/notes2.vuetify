@@ -39,7 +39,6 @@ export default {
       this.$store.dispatch('editor/importProjects', this.selectedPath)
         .catch(({message}) => {
           console.error(message)
-          this.$store.dispatch('editor/notify', {message, severity: 'error'})
         })
     }
   },

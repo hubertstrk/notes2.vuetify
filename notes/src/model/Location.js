@@ -1,10 +1,12 @@
+const path = require('path')
+
 class Project {
   constructor (path, name) {
     this.path = path
     this.name = name
   }
   get fullPath () {
-    return `${this.path}\\${this.name}`
+    return path.join(this.path, this.name)
   }
 
   equals (toCompare) {

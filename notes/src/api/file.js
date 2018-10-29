@@ -1,4 +1,5 @@
 const fs = require('fs')
+const path = require('path')
 const uuidv4 = require('uuid/v4')
 
 const addLocation = (Project) => {
@@ -20,9 +21,9 @@ const readDirectory = (path) => {
   })
 }
 
-const readFile = (path, filename) => {
+const readFile = (filepath, filename) => {
   return new Promise((resolve, reject) => {
-    fs.readFile(`${path}/${filename}`, 'utf8', (error, text) => {
+    fs.readFile(path.join(filepath, filename), 'utf8', (error, text) => {
       if (error) reject(error)
       resolve(text)
     })
@@ -32,27 +33,27 @@ const readFile = (path, filename) => {
 const writeNote = (note) => {
   return new Promise((resolve, reject) => {
     if (!note) resolve()
-    fs.writeFile(`${note.project.fullPath}/${note.id}`, note.text, 'utf8', (error) => {
+    fs.writeFile(path.join(note.project.fullPath, note.id), note.text, 'utf8', (error) => {
       if (error) reject(error)
       resolve()
     })
   })
 }
 
-const addNote = (path, markdown) => {
+const addNote = (filepath, markdown) => {
   return new Promise((resolve, reject) => {
     const uuid = uuidv4() // uuid is filename
-    fs.appendFile(`${path}/${uuid}`, markdown, 'utf8', (error) => {
+    fs.appendFile(path.join(filepath, uuid), markdown, 'utf8', (error) => {
       if (error) reject(error)
       resolve(uuid)
     })
   })
 }
 
-const deleteNote = (path, filename) => {
+const deleteNote = (filepath, filename) => {
   return new Promise((resolve, reject) => {
     try {
-      fs.unlinkSync(`${path}/${filename}`)
+      fs.unlinkSync(path.join(filepath, filename))
       resolve()
     } catch (error) {
       reject(error)
