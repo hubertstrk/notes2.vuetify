@@ -14,7 +14,7 @@ const mutations = {
   }
 }
 
-const timeout = 30000000
+const timeout = 3000
 
 const actions = {
   error ({dispatch}, notification) {

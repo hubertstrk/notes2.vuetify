@@ -6,7 +6,7 @@
         <v-icon class="severity-icon" color="white">{{icon}}</v-icon>
         <div class="text body-1">{{text}}</div>
         <v-btn class="remove-icon" icon small @click="remove(id)">
-          <v-icon color="#455A64" small>clear</v-icon>
+          <v-icon color="white" small>clear</v-icon>
         </v-btn>
       </div>
     </transition-group>
