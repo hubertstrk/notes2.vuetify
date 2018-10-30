@@ -1,6 +1,6 @@
 <template>
   <v-layout row wrap justify-center id="wrapper">
-    <EditorMarkdown :elements="['app-tool-bar', 'editor-toolbar', 'editor-footer']"></EditorMarkdown>
+    <EditorMarkdown v-if="readMode" :elements="['app-tool-bar', 'editor-toolbar', 'editor-footer']"></EditorMarkdown>
     <EditorMarkup :elements="['app-tool-bar', 'markup-toolbar']"></EditorMarkup>
   </v-layout>
 </template>
@@ -12,6 +12,17 @@ import EditorMarkdown from './EditorMarkdown'
 export default {
   name: 'Editor',
   components: {EditorMarkup, EditorMarkdown},
+  data () {
+    return {
+      expanded: false
+    }
+  },
+  computed: {
+    readMode () {
+      console.info('readMode')
+      return this.$store.state.editor.settings.readMode
+    }
+  },
   methods: {
     open (link) {
       this.$electron.shell.openExternal(link)

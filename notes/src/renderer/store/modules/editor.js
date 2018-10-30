@@ -14,13 +14,17 @@ const state = {
     highlightActiveLine: true,
     appTheme: '#424242',
     starred: [],
-    active: null
+    active: null,
+    readMode: false
   },
   notes: [],
   projects: []
 }
 
 const mutations = {
+  toggleReadMode (state) {
+    state.settings.readMode = !state.settings.readMode
+  },
   addProject (state, Project) {
     state.projects.push(Project)
   },

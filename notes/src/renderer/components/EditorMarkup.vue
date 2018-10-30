@@ -1,6 +1,10 @@
 <template>
   <div class="editor-markup">
     <div id="markup-toolbar" class="markup-toolbar">
+      <v-btn small flat icon @click="toggleReadMode(true)">
+        <v-icon v-if="readMode">arrow_back_ios</v-icon>
+        <v-icon v-if="!readMode">arrow_forward_ios</v-icon>
+      </v-btn>
       <v-btn small flat icon @click="print"><v-icon>print</v-icon></v-btn>
     </div>
     <div :style="scrollable" id="iframe-container"></div>
@@ -27,11 +31,17 @@ export default {
     },
     codeTheme () {
       return this.$store.state.editor.settings.codeTheme
+    },
+    readMode () {
+      return this.$store.state.editor.settings.readMode
     }
   },
   methods: {
     print () {
       document.querySelector('#iframe').contentWindow.print()
+    },
+    toggleReadMode () {
+      this.$store.commit('editor/toggleReadMode')
     },
     addMarkup (markup) {
       // create markdown container
@@ -87,7 +97,7 @@ export default {
   height: 40px;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   padding: 0 10px 0 0;
 }
 
