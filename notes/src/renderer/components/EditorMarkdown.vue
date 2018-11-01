@@ -45,9 +45,11 @@ export default {
   props: ['elements'],
   data: () => ({
     editor: null,
+    session: null,
     currentRow: 1,
     currentColumn: 1,
-    status: ''
+    status: '',
+    progress: 30
   }),
   computed: {
     ...mapState('editor', {
@@ -56,7 +58,8 @@ export default {
       theme: state => state.settings.editorTheme,
       editorFontSize: state => state.settings.editorFontSize,
       displayFoldWidgets: state => state.settings.displayFoldWidgets,
-      highlightActiveLine: state => state.settings.highlightActiveLine
+      highlightActiveLine: state => state.settings.highlightActiveLine,
+      displayGutter: state => state.settings.displayGutter
     }),
     activeNote () {
       return this.$store.getters['editor/activeNote']
@@ -87,6 +90,7 @@ export default {
     },
     editorInit (editor) {
       this.editor = editor
+      this.session = editor.getSession()
       this.editor.setWrapBehavioursEnabled(true)
       this.editor.setShowInvisibles(false)
       this.editor.setShowFoldWidgets(this.displayFoldWidgets)
@@ -96,6 +100,7 @@ export default {
       this.editor.getSession().setUseWrapMode(true)
       this.editor.getSession().setUseSoftTabs(true)
       this.editor.setHighlightActiveLine(this.highlightActiveLine)
+      this.editor.renderer.setShowGutter(this.displayGutter)
       this.editor.setAnimatedScroll()
       this.editor.resize()
 
@@ -112,6 +117,8 @@ export default {
       const {row, column} = this.editor.getCursorPosition()
       this.currentRow = row + 1
       this.currentColumn = column + 1
+
+      console.info(this.editor.renderer.$size.scrollerHeight)
     },
     updateNote: _.debounce(function (text) {
       this.$store.dispatch('editor/updateNoteText', text)
@@ -136,6 +143,9 @@ export default {
     editorFontSize (value) {
       this.editor.setFontSize(this.editorFontSize)
       this.editor.resize()
+    },
+    displayGutter () {
+      this.editor.renderer.setShowGutter(this.displayGutter)
     }
   },
   destroyed () {
@@ -165,5 +175,9 @@ export default {
 }
 .footer {
   height: 20px;
+}
+.progres {
+  height: 7px;
+  margin: 0px !important;
 }
 </style>

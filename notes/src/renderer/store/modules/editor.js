@@ -14,7 +14,8 @@ const state = {
     highlightActiveLine: true,
     appTheme: '#424242',
     starred: [],
-    active: null
+    active: null,
+    displayGutter: true
   },
   notes: [],
   projects: []
@@ -74,6 +75,9 @@ const mutations = {
     } else {
       state.settings.starred.splice(index, 1)
     }
+  },
+  toggleGutter (state) {
+    state.settings.displayGutter = !state.settings.displayGutter
   }
 }
 
@@ -241,6 +245,10 @@ const actions = {
   },
   toggleStarred ({commit, dispatch}, id) {
     commit('toggleStarred', id)
+    dispatch('writeUserSettings')
+  },
+  toggleGutter ({commit, dispatch}) {
+    commit('toggleGutter')
     dispatch('writeUserSettings')
   }
 }

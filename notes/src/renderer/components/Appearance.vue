@@ -8,7 +8,8 @@
       <v-select v-model="selectedEditorTheme" :items="editorThemeItems" label="Editor Theme" solo></v-select>
     </div>
     
-    <v-switch color="primary" label="Mark Current Line" v-model="highlightActiveLine"></v-switch>
+    <v-switch color="primary" label="Display Gutter" v-model="toogleGutter"></v-switch>
+    <v-switch color="primary" label="Mark current line" v-model="highlightActiveLine"></v-switch>
     <v-switch color="primary" label="Display fold widgets" v-model="displayFoldWidgets"></v-switch>
 
     <div class="display-1">Code</div>
@@ -66,6 +67,14 @@ export default {
       set (label) {
         const theme = EditorThemes.find(x => x.label === label)
         this.$store.dispatch('editor/setEditorTheme', theme.name)
+      }
+    },
+    toogleGutter: {
+      get () {
+        return this.$store.state.editor.settings.displayGutter
+      },
+      set (value) {
+        this.$store.dispatch('editor/toggleGutter')
       }
     },
     displayFoldWidgets: {
