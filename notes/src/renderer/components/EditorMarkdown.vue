@@ -27,7 +27,7 @@
       </Editor>
     </div>
     <div class="toolbar footer" id="editor-footer">
-      <div></div>
+      <div class="caption">{{activeNote ? activeNote.project.fullPath : ''}}</div>
       <div class="caption">Ln {{currentRow}}, Col {{currentColumn}}</div>
     </div>
   </div>

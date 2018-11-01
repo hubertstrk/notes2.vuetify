@@ -15,6 +15,7 @@ const state = {
     appTheme: '#424242',
     starred: [],
     active: null,
+    readMode: false
     displayGutter: true
   },
   notes: [],
@@ -22,6 +23,9 @@ const state = {
 }
 
 const mutations = {
+  toggleReadMode (state) {
+    state.settings.readMode = !state.settings.readMode
+  },
   addProject (state, Project) {
     state.projects.push(Project)
   },
