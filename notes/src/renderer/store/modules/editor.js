@@ -15,7 +15,7 @@ const state = {
     appTheme: '#424242',
     starred: [],
     active: null,
-    readMode: false
+    readMode: false,
     displayGutter: true
   },
   notes: [],
