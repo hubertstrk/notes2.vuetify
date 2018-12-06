@@ -66,7 +66,6 @@ export default {
   },
   watch: {
     appTheme (value) {
-      console.info(`color change: ${value}`)
       this.$vuetify.theme.primary = this.appTheme
     }
   },

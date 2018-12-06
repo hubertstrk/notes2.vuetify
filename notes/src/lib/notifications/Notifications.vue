@@ -31,11 +31,11 @@ export default {
         case 'error':
           return 'background-color: #FF5252;'
         case 'info':
-          return 'background-color: #1976D2;'
+          return 'background-color: #039BE5;'
         case 'warning':
-          return 'background-color: #FFC400;'
+          return 'background-color: #FFD740;'
         case 'success':
-          return 'background-color: #388E3C;'
+          return 'background-color: #1DE9B6;'
       }
     },
     iconColor (severity) {
@@ -89,12 +89,12 @@ export default {
 .icon:hover { cursor: pointer; }
 
 .list-enter-active, .list-leave-active {
-  transition: all 0.8s;
+  transition: all .6s;
 }
 .list-enter, .list-leave-to {
   opacity: 0;
-  transform: translateX(200px);
-  /* transform: scale(0, 0); */
+  /* transform: translateX(200px); */
+  transform: scale(0, 0);
 }
 </style>
 

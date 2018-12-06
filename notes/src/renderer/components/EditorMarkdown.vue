@@ -117,8 +117,6 @@ export default {
       const {row, column} = this.editor.getCursorPosition()
       this.currentRow = row + 1
       this.currentColumn = column + 1
-
-      console.info(this.editor.renderer.$size.scrollerHeight)
     },
     updateNote: _.debounce(function (text) {
       this.$store.dispatch('editor/updateNoteText', text)

@@ -19,7 +19,6 @@ export default {
   },
   computed: {
     readMode () {
-      console.info('readMode')
       return this.$store.state.editor.settings.readMode
     }
   },

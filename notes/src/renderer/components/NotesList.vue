@@ -7,7 +7,7 @@
         </v-list-tile-content>
       </v-list-tile>
       <transition-group name="list" tag="div">
-        <v-list-tile @click="activateNote(note.id)" class="note" v-for="note in projectNote.notes" :key="note.id">
+        <v-list-tile @click="activateNote(note.id)" class="note" :class="{'active': note.id === activeNote.id}" v-for="note in projectNote.notes" :key="note.id">
           <v-list-tile-title v-text="note.title" :class="{'primary--text': activeNote && note.id === activeNote.id}"></v-list-tile-title>
         </v-list-tile>
         </transition-group>
@@ -70,5 +70,8 @@ export default {
 .list-enter, .list-leave-to {
   opacity: 0;
   transform: translatex(200px);
+}
+.active {
+  background-color: rgb(90, 90, 90);
 }
 </style>

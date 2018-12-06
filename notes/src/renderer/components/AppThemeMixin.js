@@ -5,9 +5,7 @@ export const AppThemeMixin = {
   },
   computed: {
     appThemeStyle () {
-      const style = this.$store.state.editor.settings.appTheme === 'dark' ? 'theme--dark' : 'theme--light'
-      console.info(style)
-      return style
+      return this.$store.state.editor.settings.appTheme === 'dark' ? 'theme--dark' : 'theme--light'
     }
   }
 }
