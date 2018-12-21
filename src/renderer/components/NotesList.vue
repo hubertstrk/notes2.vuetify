@@ -46,12 +46,9 @@ export default {
     },
     activeNoteProject () {
       if (this.activeNote) {
-        const activeBuffer = this.activeNote.project.fullPath
-        this.activeBuffer = activeBuffer
-        return activeBuffer
-      } else {
-        return this.activeBuffer
+        this.activeBuffer = this.activeNote.project.fullPath
       }
+      return this.activeBuffer
     }
   },
   methods: {
