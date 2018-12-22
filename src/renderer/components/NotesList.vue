@@ -7,8 +7,8 @@
         </v-list-tile-content>
       </v-list-tile>
       <transition-group name="list" tag="div">
-        <v-list-tile @click="activateNote(note.id)" class="note" :class="{'active': note.id === activeNote.id}" v-for="note in projectNote.notes" :key="note.id">
-          <v-list-tile-title v-text="note.title" :class="{'primary--text': activeNote && note.id === activeNote.id}"></v-list-tile-title>
+        <v-list-tile @click="activateNote(note.id)" class="note" :class="{'active': activeNote && note.id === activeNote.id }" v-for="note in projectNote.notes" :key="note.id">
+          <v-list-tile-title v-text="note.title" :class="{'primary--text': activeNote && note.id === activeNote.id }"></v-list-tile-title>
         </v-list-tile>
         </transition-group>
     </v-list-group>
