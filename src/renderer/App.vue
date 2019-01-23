@@ -48,7 +48,7 @@ export default {
     fixed: false,
     right: true,
     rightDrawer: false,
-    title: 'Editor'
+    title: ''
   }),
   computed: {
     appTheme () {

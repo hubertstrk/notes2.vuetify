@@ -11,14 +11,20 @@ if (process.env.NODE_ENV !== 'development') {
 }
 
 let mainWindow
+let loading
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
 
 function createWindow () {
-  /**
-   * Initial window options
-   */
+  // splash window
+  loading = new BrowserWindow({
+    show: false,
+    frame: false,
+    height: 400,
+    width: 400
+  })
+
   mainWindow = new BrowserWindow({
     height: 800,
     useContentSize: true,
@@ -26,17 +32,34 @@ function createWindow () {
     noteIntegration: 'iframe',
     webPreferences: {
       webSecurity: false
-    }
+    },
+    show: false
+  })
+
+  mainWindow.webContents.once('dom-ready', () => {
+    console.log('main loaded')
+    setTimeout(() => {
+      mainWindow.show()
+      loading.hide()
+      loading.close()
+    }, 4000)
   })
 
   mainWindow.loadURL(winURL)
+
+  loading.loadURL('https://dazzling-curran-2ed140.netlify.com/')
+  loading.webContents.once('dom-ready', () => {
+    loading.show()
+  })
 
   mainWindow.on('closed', () => {
     mainWindow = null
   })
 }
 
-app.on('ready', createWindow)
+app.on('ready', () => {
+  createWindow()
+})
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
