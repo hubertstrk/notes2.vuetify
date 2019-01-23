@@ -21,8 +21,8 @@ function createWindow () {
   loading = new BrowserWindow({
     show: false,
     frame: false,
-    height: 400,
-    width: 400
+    height: 300,
+    width: 600
   })
 
   mainWindow = new BrowserWindow({
@@ -40,8 +40,8 @@ function createWindow () {
     console.log('main loaded')
     setTimeout(() => {
       mainWindow.show()
-      loading.hide()
-      loading.close()
+      // loading.hide()
+      // loading.close()
     }, 4000)
   })
 
