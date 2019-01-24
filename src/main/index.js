@@ -40,8 +40,8 @@ function createWindow () {
     console.log('main loaded')
     setTimeout(() => {
       mainWindow.show()
-      // loading.hide()
-      // loading.close()
+      loading.hide()
+      loading.close()
     }, 4000)
   })
 
