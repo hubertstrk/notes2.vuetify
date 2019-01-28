@@ -1,8 +1,8 @@
 <template>
   <div class="appearance-component" :style="scrollable">
-    <div class="display-2">Appearance</div>
+    <div class="font-weight-light display-2">Appearance</div>
 
-    <div class="display-1">Editor</div>
+    <div class="font-weight-light display-1">Editor</div>
     <div class="subheading">Theme</div>
     <div>
       <v-select v-model="selectedEditorTheme" :items="editorThemeItems" label="Editor Theme" solo></v-select>
@@ -12,7 +12,7 @@
     <v-switch color="primary" label="Mark current line" v-model="highlightActiveLine"></v-switch>
     <v-switch color="primary" label="Display fold widgets" v-model="displayFoldWidgets"></v-switch>
 
-    <div class="display-1">Code</div>
+    <div class="font-weight-light display-1">Code</div>
     <div class="subheading">Theme</div>
     <div>
       <v-select v-model="selectedCodeTheme" :items="codeThemeItems" label="Code Snippet Theme" solo></v-select>

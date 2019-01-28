@@ -35,7 +35,7 @@ export default {
         case 'warning':
           return 'background-color: #FFD740;'
         case 'success':
-          return 'background-color: #1DE9B6;'
+          return 'background-color: #60db8f;'
       }
     },
     iconColor (severity) {

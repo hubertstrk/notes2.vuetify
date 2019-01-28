@@ -1,5 +1,12 @@
 <template>
   <div class="editor-text">
+    <div class="markdown-title" id="markdown-title">
+      <div>
+        <!-- <span class="headline font-weight-light">{{activeNote ? activeNote.project.name : ''}}</span> -->
+        <span class="headline font-weight-light">{{activeNote && activeNote.headings.length > 0 ? activeNote.headings[0].text : ''}}</span>
+      </div>
+      <div><v-chip color="primary" v-for="(tag, i) in uniqueCodeTags" outline light small :key="i">{{tag}}</v-chip></div>
+    </div>
     <div class="toolbar header" id="editor-toolbar">
       <div>
         <v-btn v-if="isActiveStarred" small flat icon @click="toggleStarred"><v-icon color="yellow darken-2">star</v-icon></v-btn>
@@ -66,6 +73,10 @@ export default {
     },
     isActiveStarred () {
       return this.starred ? this.starred.includes(this.active) : false
+    },
+    uniqueCodeTags () {
+      if (!this.activeNote) return
+      return _.uniqBy(this.activeNote.codeTags.filter(x => x && x !== undefined))
     }
   },
   methods: {
@@ -162,6 +173,11 @@ export default {
   flex-direction: column;
 }
 
+.markdown-title {
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+}
 .toolbar {
   display: flex;
   align-items: center;

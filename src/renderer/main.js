@@ -10,13 +10,14 @@ import store from './store'
 import Notifications from '../lib/notifications'
 
 import './side-effects'
-import colors from 'vuetify/es5/util/colors'
+// import colors from 'vuetify/es5/util/colors'
 
 Vue.use(Notifications, { store })
 
 Vue.use(Vuetify, {
   theme: {
-    primary: colors.blue
+    primary: '#42b883',
+    secondary: '#35495e'
   }
 })
 

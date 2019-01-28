@@ -11,6 +11,14 @@ export const getHeadings = () => {
   return headings
 }
 
+let codeTags = []
+export const clearCodeTags = () => {
+  codeTags = []
+}
+export const getCodeTags = () => {
+  return codeTags
+}
+
 renderer.heading = function (text, level) {
   const escapedText = text.toLowerCase().replace(/[^\w]+/g, '-')
   headings.push({text, level})
@@ -23,6 +31,7 @@ renderer.heading = function (text, level) {
 export const setCodeTheme = (codeStyle) => {
   marked.setOptions({
     highlight: function (code, lang) {
+      codeTags.push(lang)
       hljs.configure({
         classPrefix: `${codeStyle}-hljs-`
       })

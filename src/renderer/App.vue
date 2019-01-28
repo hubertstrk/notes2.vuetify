@@ -84,9 +84,10 @@ export default {
 </style>
 
 <style lang="css" scoped>
-/* .left-drawer {
-  background-color: #212121;
-} */
+.left-drawer {
+  background-color: #35495e;
+  color: #42b883;
+}
 .right-drawer-open {
   width: 400px !important;
 }

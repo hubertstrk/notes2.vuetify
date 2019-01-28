@@ -1,6 +1,6 @@
 <template>
   <div class="note-component" :style="scrollable">
-    <div class="display-2">New Note</div>
+    <div class="font-weight-light display-2">New Note</div>
     <div class="subheading">To create a new note you need to select a project.</div>
     <div>
       <v-list>
