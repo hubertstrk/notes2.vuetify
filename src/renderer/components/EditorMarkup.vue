@@ -1,11 +1,11 @@
 <template>
   <div class="editor-markup">
     <div id="markup-toolbar" class="markup-toolbar">
-      <v-btn small flat icon @click="toggleReadMode(true)">
-        <v-icon v-if="readMode">arrow_back_ios</v-icon>
-        <v-icon v-if="!readMode">arrow_forward_ios</v-icon>
+      <v-btn icon @click="toggleReadMode()">
+        <v-icon v-if="readMode">keyboard_arrow_left</v-icon>
+        <v-icon v-if="!readMode">keyboard_arrow_right</v-icon>
       </v-btn>
-      <v-btn small flat icon @click="print"><v-icon>print</v-icon></v-btn>
+      <v-btn icon @click="print"><v-icon>print</v-icon></v-btn>
     </div>
     <div :style="scrollable" id="iframe-container"></div>
   </div>

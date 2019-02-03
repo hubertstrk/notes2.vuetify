@@ -9,7 +9,7 @@
         <v-list-tile-sub-title v-html="project.path"></v-list-tile-sub-title>
       </v-list-tile-content>
       <v-list-tile-action>
-        <v-checkbox :input-value="fullPath(project) === fullPath(value)" @click="select(project)"></v-checkbox>
+        <v-checkbox :color="error ? 'error' : 'primary'" :input-value="fullPath(project) === fullPath(value)" @click="select(project)"></v-checkbox>
       </v-list-tile-action>
     </v-list-tile>
   </v-list>
@@ -24,7 +24,8 @@ import path from 'path'
 export default {
   props: {
     projects: Array,
-    value: Object
+    value: Object,
+    error: Boolean
   },
   methods: {
     fullPath (project) {

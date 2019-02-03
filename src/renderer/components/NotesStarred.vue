@@ -3,18 +3,18 @@
     <v-divider></v-divider>
     <v-list-group>
       <v-list-tile slot="activator">
-        <v-list-tile-action>
-          <v-icon color="grey lighten-1">star_outline</v-icon>
-        </v-list-tile-action>
+        <!-- <v-list-tile-action>
+          <v-icon color="primary">favorite</v-icon>
+        </v-list-tile-action> -->
         <v-list-tile-content>
-          <v-list-tile-title>Starred</v-list-tile-title>
+          <v-list-tile-title class="">Starred</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
       <v-list-tile @click="activateNote(note.id)" class="note" v-for="note in starred" :key="note.id">
         <v-list-tile-title v-text="note.headings[0].text" :class="{'primary--text': activeNote && note.id === activeNote.id}"></v-list-tile-title>
       </v-list-tile>
     </v-list-group>
-    <v-divider></v-divider>
+    <!-- <v-divider></v-divider> -->
   </v-list>
 </template>
 

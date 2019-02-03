@@ -16,11 +16,11 @@
 <script>
 import _ from 'lodash'
 
-import Project from '@model/Location'
-import ProjectSelection from './ProjectSelection'
-
 import {mapState} from 'vuex'
 import {SizeMixin} from './SizeMixin.js'
+
+import Project from '@model/Location'
+import ProjectSelection from './ProjectSelection'
 
 export default {
   name: 'NewNote',

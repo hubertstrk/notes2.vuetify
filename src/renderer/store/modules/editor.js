@@ -92,6 +92,13 @@ const mutations = {
     if (state.settings.favouriteProjects.length >= 4) {
       state.settings.favouriteProjects.shift()
     }
+  },
+  deleteProject (state, project) {
+    const index = state.projects.findIndex(x => x.equals(project))
+    state.projects.splice(index, 1)
+
+    const favoriteIndex = state.settings.favouriteProjects.findIndex(x => x.path === project.path && x.name === project.name)
+    state.settings.favouriteProjects.splice(favoriteIndex, 1)
   }
 }
 
@@ -262,9 +269,13 @@ const actions = {
     commit('toggleGutter')
     dispatch('writeUserSettings')
   },
-  addFavoriteProject ({commit, dispatch}, project) {
-    commit('addFavoriteProject', project)
+  addFavouriteProject ({commit, dispatch}, project) {
+    commit('addFavouriteProject', project)
     dispatch('writeUserSettings')
+  },
+  deleteProject ({commit}, project) {
+    commit('deleteProject', project)
+    fileApi.deleteProject(project.path, project.name)
   }
 }
 

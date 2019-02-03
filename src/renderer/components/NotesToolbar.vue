@@ -1,23 +1,23 @@
 <template>
  <v-list>
   <v-list-tile>
-    <v-list-tile-title><h2 class="font-weight-light">Notes</h2></v-list-tile-title>
+    <v-list-tile-title><h2 class="">Notes</h2></v-list-tile-title>
     <v-btn @click="$router.push('new-note')" flat icon color="white">
-      <v-icon>playlist_add</v-icon>
+      <v-icon>add</v-icon>
     </v-btn>
     <v-btn :disabled="!activeNote" @click="showModal = true" flat icon color="white">
-      <v-icon>delete_outline</v-icon>
+      <v-icon>delete</v-icon>
     </v-btn>
   </v-list-tile>
   
-  <v-dialog v-model="showModal" width="500">
+  <v-dialog v-model="showModal" width="400">
     <v-card>
       <v-card-title class="headline grey lighten-2" primary-title>Delete Note</v-card-title>
-      <v-card-text>Are you sure you want to delete the current note?</v-card-text>
+      <v-card-text>Are you sure you want to delete the current note? This is an unrecoverable action.</v-card-text>
       <v-divider></v-divider>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="warning" flat @click="deleteNote">Yes</v-btn>
+        <v-btn color="error" flat @click="deleteNote">Yes</v-btn>
         <v-btn color="primary" flat @click="showModal = false">No</v-btn>
       </v-card-actions>
     </v-card>

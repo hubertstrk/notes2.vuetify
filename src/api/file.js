@@ -1,4 +1,5 @@
-const fs = require('fs')
+// const fs = require('fs')
+const fs = require('fs-extra')
 const path = require('path')
 const uuidv4 = require('uuid/v4')
 
@@ -61,11 +62,24 @@ const deleteNote = (filepath, filename) => {
   })
 }
 
+const deleteProject = (filepath, filename) => {
+  return new Promise((resolve, reject) => {
+    fs.remove(path.join(filepath, filename), err => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve()
+      }
+    })
+  })
+}
+
 export default {
   addLocation,
   readDirectory,
   readFile,
   writeNote,
   addNote,
-  deleteNote
+  deleteNote,
+  deleteProject
 }

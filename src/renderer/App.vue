@@ -14,7 +14,7 @@
         <v-toolbar-title v-text="title"></v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon @click.native.stop="rightDrawer = !rightDrawer">
-          <v-icon>menu</v-icon>
+          <v-icon>settings</v-icon>
         </v-btn>
       </v-toolbar>
       <v-content>
