@@ -16,7 +16,8 @@ const state = {
     starred: [],
     active: null,
     readMode: false,
-    displayGutter: true
+    displayGutter: true,
+    favouriteProjects: []
   },
   notes: [],
   projects: []
@@ -82,6 +83,15 @@ const mutations = {
   },
   toggleGutter (state) {
     state.settings.displayGutter = !state.settings.displayGutter
+  },
+  addFavouriteProject (state, project) {
+    const favourites = state.settings.favouriteProjects.map(x => new Project(x.path, x.name))
+    if (!favourites.some(x => x.equals(project))) {
+      state.settings.favouriteProjects.push(project)
+    }
+    if (state.settings.favouriteProjects.length >= 4) {
+      state.settings.favouriteProjects.shift()
+    }
   }
 }
 
@@ -132,13 +142,10 @@ const actions = {
   },
   addProject ({commit, dispatch}, {path, name}) {
     const project = new Project(path, name)
+    commit('addProject', project)
     return fileApi.addLocation(project).then(() => {
       dispatch('notifications/success', {text: 'Project created'}, {root: true})
-      commit('addProject', project)
     })
-      .catch(({message}) => {
-        console.error(message)
-      })
   },
   updateNoteText ({commit}, text) {
     commit('updateNoteText', text)
@@ -253,6 +260,10 @@ const actions = {
   },
   toggleGutter ({commit, dispatch}) {
     commit('toggleGutter')
+    dispatch('writeUserSettings')
+  },
+  addFavoriteProject ({commit, dispatch}, project) {
+    commit('addFavoriteProject', project)
     dispatch('writeUserSettings')
   }
 }

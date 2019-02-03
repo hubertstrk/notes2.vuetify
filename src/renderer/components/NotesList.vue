@@ -2,12 +2,12 @@
   <v-list subheader>
     <v-list-group v-model="projectNote.active" :key="projectNote.project.fullPath" v-for="projectNote in projectNotes">
       <v-list-tile slot="activator">
-        <v-badge right>
-          <span slot="badge">{{projectNote.notes.length}}</span>
+        <!-- <v-badge right>
+          <span slot="badge">{{projectNote.notes.length}}</span> -->
             <v-list-tile-content>
               <v-list-tile-title>{{projectNote.project.name}}</v-list-tile-title>
             </v-list-tile-content>
-          </v-badge>
+          <!-- </v-badge> -->
       </v-list-tile>
       <transition-group name="list" tag="div">
         <v-list-tile @click="activateNote(note.id)" class="note" :class="{'active': activeNote && note.id === activeNote.id }" v-for="note in projectNote.notes" :key="note.id">
