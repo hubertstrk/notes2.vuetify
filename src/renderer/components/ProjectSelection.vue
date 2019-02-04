@@ -2,7 +2,7 @@
    <v-list v-if="projects.length > 0" two-line>
     <v-list-tile :key="i" v-for="(project, i) in projects" class="selectable" avatar>
       <v-list-tile-avatar>
-        <v-icon class="grey lighten-1 white--text">folder</v-icon>
+        <v-icon class="primary white--text">folder</v-icon>
       </v-list-tile-avatar>
       <v-list-tile-content>
         <v-list-tile-title v-html="project.name"></v-list-tile-title>

@@ -1,7 +1,7 @@
 <template>
  <v-list>
   <v-list-tile>
-    <v-list-tile-title><h2 class="">Notes</h2></v-list-tile-title>
+    <v-list-tile-title><h2>Notes</h2></v-list-tile-title>
     <v-btn @click="$router.push('new-note')" flat icon color="white">
       <v-icon>add</v-icon>
     </v-btn>

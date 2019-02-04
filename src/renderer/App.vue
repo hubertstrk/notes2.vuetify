@@ -24,7 +24,7 @@
           </v-slide-y-transition>
         </v-container>
       </v-content>
-      <v-navigation-drawer :class="rightDrawer ? 'right-drawer-open' : 'right-drawer-closed'" temporary fixed :right="right" v-model="rightDrawer">
+      <v-navigation-drawer dark :class="rightDrawer ? 'right-drawer-open' : 'right-drawer-closed'" temporary fixed :right="right" v-model="rightDrawer">
         <Drawer></Drawer>
       </v-navigation-drawer>
 
