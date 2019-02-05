@@ -1,4 +1,5 @@
 const state = {
+  timeout: 3000,
   all: []
 }
 
@@ -6,36 +7,47 @@ const mutations = {
   add (state, notification) {
     state.all.push(notification)
   },
-  remove (state, id) {
-    const index = state.all.findIndex(x => x.id === id)
-    if (index !== -1) {
-      state.all.splice(index, 1)
-    }
+  remove (state) {
+    state.all.pop()
   }
 }
 
-const timeout = 3000
+const error = {
+  severity: 'error',
+  icon: 'error'
+}
+const info = {
+  severity: 'info',
+  icon: 'info'
+}
+const warning = {
+  severity: 'warning',
+  icon: 'warning'
+}
+const success = {
+  severity: 'success',
+  icon: 'done'
+}
 
 const actions = {
-  error ({dispatch}, notification) {
-    dispatch('addNotification', {...notification, severity: 'error', icon: 'error'})
+  error ({dispatch}, text) {
+    dispatch('addNotification', Object.assign(error, {text}))
   },
-  warning ({dispatch}, notification) {
-    dispatch('addNotification', {...notification, severity: 'warning', icon: 'warning'})
+  warning ({dispatch}, text) {
+    dispatch('addNotification', Object.assign(warning, {text}))
   },
-  info ({dispatch}, notification) {
-    dispatch('addNotification', {...notification, severity: 'info', icon: 'info'})
+  info ({dispatch}, text) {
+    dispatch('addNotification', Object.assign(info, {text}))
   },
-  success ({dispatch}, notification) {
-    dispatch('addNotification', {...notification, severity: 'success', icon: 'done'})
+  success ({dispatch}, text) {
+    dispatch('addNotification', Object.assign(success, {text}))
   },
-  addNotification ({commit}, notification) {
+  addNotification ({state, commit}, notification) {
     if (state.all.find(x => x.text === notification.text)) return
-    const id = state.all.length + 1
-    commit('add', {...notification, id})
+    commit('add', {...notification})
     setTimeout(() => {
-      commit('remove', id)
-    }, timeout)
+      commit('remove')
+    }, state.timeout)
   }
 }
 

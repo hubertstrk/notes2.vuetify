@@ -12,7 +12,7 @@ import Notifications from '../lib/notifications'
 import './side-effects'
 // import colors from 'vuetify/es5/util/colors'
 
-Vue.use(Notifications, { store })
+Vue.use(Notifications, {store, options: {timeout: 3000}})
 
 Vue.use(Vuetify, {
   theme: {

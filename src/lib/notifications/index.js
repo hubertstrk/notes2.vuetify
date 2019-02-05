@@ -6,6 +6,8 @@ function install (Vue, options = {}) {
 
   Vue.component('Notifications', notifications)
 
+  // add options to state
+  module.state.timeout = options.options.timeout
   options.store.registerModule('notifications', module)
 }
 

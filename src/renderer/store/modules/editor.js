@@ -104,10 +104,10 @@ const mutations = {
 
 const actions = {
   createNote ({commit, dispatch}, Project) {
-    dispatch('notifications/success', {text: 'Note created'}, {root: true})
+    dispatch('notifications/success', 'Note created', {root: true})
     return fileApi.addNote(Project.fullPath, '# Title').then((id) => {
       const note = new Note(id, Project)
-      note.setText('# Title')
+      note.setText('# ')
       commit('addNote', note)
       commit('activateNote', note.id)
     })
@@ -120,7 +120,7 @@ const actions = {
     if (activeNote) {
       fileApi.deleteNote(activeNote.project.fullPath, activeNote.id)
         .then(() => {
-          dispatch('notifications/success', {text: 'Note deleted'}, {root: true})
+          dispatch('notifications/success', 'Note deleted', {root: true})
         })
         .catch(({message}) => {
           console.error(message)
@@ -151,7 +151,7 @@ const actions = {
     const project = new Project(path, name)
     commit('addProject', project)
     return fileApi.addLocation(project).then(() => {
-      dispatch('notifications/success', {text: 'Project created'}, {root: true})
+      dispatch('notifications/success', 'Project created', {root: true})
     })
   },
   updateNoteText ({commit}, text) {
@@ -229,19 +229,19 @@ const actions = {
         return dispatch('readNotes')
       })
       .then(() => {
-        dispatch('notifications/success', {text: 'Project imported'}, {root: true})
+        dispatch('notifications/success', 'Projects imported', {root: true})
       })
   },
   setEditorTheme ({commit, dispatch}, theme) {
     commit('setEditorTheme', theme)
     dispatch('writeUserSettings')
-    dispatch('notifications/success', {text: 'Saved'}, {root: true})
+    dispatch('notifications/success', 'Saved', {root: true})
   },
   setCodeTheme ({commit, dispatch}, theme) {
     commit('setCodeTheme', theme)
     setCodeTheme(theme)
     dispatch('writeUserSettings')
-    dispatch('notifications/success', {text: 'Saved'}, {root: true})
+    dispatch('notifications/success', 'Saved', {root: true})
   },
   setEditorFontSize ({commit, dispatch}, fontSize) {
     commit('setEditorFontSize', fontSize)
@@ -250,12 +250,12 @@ const actions = {
   setDisplayFoldWidgets ({commit, dispatch}, value) {
     commit('setDisplayFoldWidgets', value)
     dispatch('writeUserSettings')
-    dispatch('notifications/success', {text: 'Saved'}, {root: true})
+    dispatch('notifications/success', 'Saved', {root: true})
   },
   setHighlightActiveLine ({commit, dispatch}, value) {
     commit('setHighlightActiveLine', value)
     dispatch('writeUserSettings')
-    dispatch('notifications/success', {text: 'Saved'}, {root: true})
+    dispatch('notifications/success', 'Saved', {root: true})
   },
   setAppTheme ({commit, dispatch}, color) {
     commit('setAppTheme', color)

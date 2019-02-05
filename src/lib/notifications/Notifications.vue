@@ -1,11 +1,10 @@
 <template>
   <div class="component">
-    <transition-group name="list" tag="div">
-      <div class="item" v-for="{id, text, severity, icon} in all" :key="id" :style="itemStyle(severity)">
-        <!-- <v-icon class="severity-icon" :color="iconColor(severity)">{{icon}}</v-icon> -->
-        <v-icon class="severity-icon" color="white">{{icon}}</v-icon>
-        <div class="text body-1">{{text}}</div>
-        <v-btn class="remove-icon" icon small @click="remove(id)">
+    <transition-group name="list-complete" tag="div">
+      <div class="item list-complete-item" v-for="(notification, i) in all" :key="i" :style="itemStyle(notification.severity)">
+        <v-icon class="severity-icon" color="white">{{notification.icon}}</v-icon>
+        <div class="text body-1">{{notification.text}}</div>
+        <v-btn class="remove-icon" icon small @click="remove(notification.id)">
           <v-icon color="white" small>clear</v-icon>
         </v-btn>
       </div>
@@ -55,6 +54,21 @@ export default {
 </script>
 
 <style lang="css" scoped>
+
+.list-complete-item {
+  transition: all .5s;
+  /* display: inline-block; */
+  /* margin-right: 10px; */
+}
+.list-complete-enter, .list-complete-leave-to
+/* .list-complete-leave-active below version 2.1.8 */ {
+  /* opacity: 0; */
+  transform: translateX(400px);
+}
+.list-complete-leave-active {
+  position: absolute;
+}
+
 .severity-icon, .remove-icon, .text, .item, .container { display: flex; }
 .severity-icon, .text { align-self: center; }
 
@@ -87,14 +101,5 @@ export default {
 }
 
 .icon:hover { cursor: pointer; }
-
-.list-enter-active, .list-leave-active {
-  transition: all .6s;
-}
-.list-enter, .list-leave-to {
-  opacity: 0;
-  /* transform: translateX(200px); */
-  transform: scale(0, 0);
-}
 </style>
 

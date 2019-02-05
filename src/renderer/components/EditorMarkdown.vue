@@ -6,7 +6,7 @@
         <v-btn v-else small flat icon @click="toggleStarred"><v-icon color="grey lighten-1">favorite</v-icon></v-btn>
       </div>
       <div>
-        <!-- <v-btn small flat icon @click="sendNotify()"><v-icon>zoom_in</v-icon></v-btn> -->
+        <v-btn small flat icon @click="sendNotify()"><v-icon>zoom_in</v-icon></v-btn>
         <v-btn icon @click="zoom(1)"><v-icon>zoom_in</v-icon></v-btn>
         <v-btn icon @click="zoom(-1)"><v-icon>zoom_out</v-icon></v-btn>
         <v-btn icon @click="insert('****', {diffRow: 0, diffColumn: 2})"><v-icon>format_bold</v-icon></v-btn>
