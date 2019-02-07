@@ -5,7 +5,7 @@
         <!-- <v-badge right>
           <span slot="badge">{{projectNote.notes.length}}</span> -->
             <v-list-tile-content>
-              <v-list-tile-title class="font-weight-light">{{projectNote.project.name}}</v-list-tile-title>
+              <v-list-tile-title>{{projectNote.project.name}}</v-list-tile-title>
             </v-list-tile-content>
           <!-- </v-badge> -->
       </v-list-tile>
