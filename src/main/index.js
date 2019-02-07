@@ -21,8 +21,8 @@ function createWindow () {
   loading = new BrowserWindow({
     show: false,
     frame: false,
-    height: 300,
-    width: 600
+    height: 200,
+    width: 400
   })
 
   mainWindow = new BrowserWindow({
