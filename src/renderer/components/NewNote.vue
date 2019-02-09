@@ -5,10 +5,10 @@
 
     <div class="font-weight-light headline"><span>Favorites</span></div>
     <ProjectSelection :projects="sortedFavouriteProjects" v-model="project" />
+    <v-btn @click="createNote" color="primary" :disabled="!this.selectedProject">Add Note</v-btn>
 
     <div class="font-weight-light headline"><span>Projects</span></div>
     <ProjectSelection :projects="sortedProjects" v-model="project" />
-    
     <v-btn @click="createNote" color="primary" :disabled="!this.selectedProject">Add Note</v-btn>
   </div>
 </template>
