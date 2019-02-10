@@ -74,6 +74,21 @@ const deleteProject = (filepath, filename) => {
   })
 }
 
+const renameProject = (filepath, filename, newName) => {
+  return new Promise((resolve, reject) => {
+    const odlPath = path.join(filepath, filename)
+    const newPath = path.join(filepath, newName)
+    debugger
+    fs.rename(odlPath, newPath, (err) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve()
+      }
+    })
+  })
+}
+
 export default {
   addLocation,
   readDirectory,
@@ -81,5 +96,6 @@ export default {
   writeNote,
   addNote,
   deleteNote,
-  deleteProject
+  deleteProject,
+  renameProject
 }

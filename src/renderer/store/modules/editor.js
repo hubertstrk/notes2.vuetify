@@ -99,6 +99,13 @@ const mutations = {
 
     const favoriteIndex = state.settings.favouriteProjects.findIndex(x => x.path === project.path && x.name === project.name)
     state.settings.favouriteProjects.splice(favoriteIndex, 1)
+  },
+  renameProject (state, {project, name}) {
+    const found = state.projects.find(x => x.equals(project))
+    found.name = name
+    debugger
+    const foundFavorite = state.settings.favouriteProjects.find(x => x.name === project.name && x.path === project.path)
+    foundFavorite.name = name
   }
 }
 
@@ -276,6 +283,10 @@ const actions = {
   deleteProject ({commit}, project) {
     commit('deleteProject', project)
     fileApi.deleteProject(project.path, project.name)
+  },
+  renameProject ({commit}, {project, name}) {
+    commit('renameProject', {project, name})
+    return fileApi.renameProject(project.path, project.name, name)
   }
 }
 

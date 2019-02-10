@@ -26,9 +26,9 @@ export default new Router({
       component: require('@/components/ImportProjects').default
     },
     {
-      path: '/delete-projects',
-      name: 'DeleteProjects',
-      component: require('@/components/DeleteProjects').default
+      path: '/manage-projects',
+      name: 'ManageProjects',
+      component: require('@/components/ManageProjects').default
     },
     {
       path: '/appearance',
