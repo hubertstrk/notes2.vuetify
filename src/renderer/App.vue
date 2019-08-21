@@ -13,6 +13,7 @@
         </v-btn>
         <v-toolbar-title v-text="title"></v-toolbar-title>
         <v-spacer></v-spacer>
+        <v-text-field v-model="searchText" style="margin-right: 40px;" prepend-inner-icon="search" solo></v-text-field>
         <v-btn icon @click.native.stop="rightDrawer = !rightDrawer">
           <v-icon>settings</v-icon>
         </v-btn>
@@ -53,6 +54,10 @@ export default {
   computed: {
     appTheme () {
       return this.$store.state.editor.settings.appTheme
+    },
+    searchText: {
+      get () { return this.$store.state.editor.searchText },
+      set (value) { this.$store.commit('editor/setSearchText', value) }
     }
   },
   mounted () {

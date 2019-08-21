@@ -20,6 +20,7 @@
 
 <script>
 import _ from 'lodash'
+import {mapState} from 'vuex'
 
 export default {
   data () {
@@ -28,6 +29,9 @@ export default {
     }
   },
   computed: {
+    ...mapState('editor', {
+      searchText: state => state.searchText
+    }),
     activeNote () {
       return this.$store.getters['editor/activeNote']
     },
@@ -35,7 +39,8 @@ export default {
       const formatNote = note => {
         return {
           id: note.id,
-          title: note.headings[0].text
+          title: note.headings[0].text,
+          text: note.text
         }
       }
       const projectNotes = this.$store.getters['editor/projectNotes'].map((projectNote) => {

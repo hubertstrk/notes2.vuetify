@@ -19,9 +19,9 @@
       </div>
     </div>
     <div :style="scrollable">
-      <Editor 
-        id="aceeditor" @init="editorInit" 
-        :value="activeNote ? activeNote.text : ''" 
+      <Editor
+        id="aceeditor" @init="editorInit"
+        :value="activeNote ? activeNote.text : ''"
         :theme="theme ? theme : 'chrome'"
         @input="storeNote" lang="markdown"
         width="100%" height="100%">

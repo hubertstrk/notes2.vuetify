@@ -20,10 +20,14 @@ const state = {
     favouriteProjects: []
   },
   notes: [],
-  projects: []
+  projects: [],
+  searchText: ''
 }
 
 const mutations = {
+  setSearchText (state, value) {
+    state.searchText = value
+  },
   toggleReadMode (state) {
     state.settings.readMode = !state.settings.readMode
   },
